@@ -18,9 +18,7 @@ namespace Mirror
         // position and array before reusing.
         static readonly Pool<PooledNetworkReader> Pool = new Pool<PooledNetworkReader>(
             // byte[] will be assigned in GetReader
-            () => new PooledNetworkReader(new byte[]{}),
-            // initial capacity to avoid allocations in the first few frames
-            1000
+            () => new PooledNetworkReader(new byte[]{})
         );
 
         /// <summary>Get the next reader in the pool. If pool is empty, creates a new Reader</summary>
@@ -28,7 +26,8 @@ namespace Mirror
         {
             // grab from pool & set buffer
             PooledNetworkReader reader = Pool.Take();
-            reader.SetBuffer(bytes);
+            reader.buffer = new ArraySegment<byte>(bytes);
+            reader.Position = 0;
             return reader;
         }
 
@@ -37,7 +36,8 @@ namespace Mirror
         {
             // grab from pool & set buffer
             PooledNetworkReader reader = Pool.Take();
-            reader.SetBuffer(segment);
+            reader.buffer = segment;
+            reader.Position = 0;
             return reader;
         }
 

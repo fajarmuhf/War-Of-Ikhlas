@@ -67,9 +67,6 @@ namespace Mirror
             // only on server
             if (!NetworkServer.active) return;
 
-            // NOTE: unlike Scene/MatchInterestManagement, this rebuilds ALL
-            //       entities every INTERVAL. consider the other approach later.
-
             // IMPORTANT: refresh grid every update!
             // => newly spawned entities get observers assigned via
             //    OnCheckObservers. this can happen any time and we don't want
@@ -106,15 +103,13 @@ namespace Mirror
             // rebuild all spawned entities' observers every 'interval'
             // this will call OnRebuildObservers which then returns the
             // observers at grid[position] for each entity.
-            if (NetworkTime.localTime >= lastRebuildTime + rebuildInterval)
+            if (NetworkTime.time >= lastRebuildTime + rebuildInterval)
             {
                 RebuildAll();
-                lastRebuildTime = NetworkTime.localTime;
+                lastRebuildTime = NetworkTime.time;
             }
         }
 
-// OnGUI allocates even if it does nothing. avoid in release.
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
         // slider from dotsnet. it's nice to play around with in the benchmark
         // demo.
         void OnGUI()
@@ -134,6 +129,5 @@ namespace Mirror
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
         }
-#endif
     }
 }

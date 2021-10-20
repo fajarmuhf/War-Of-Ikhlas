@@ -6,10 +6,8 @@ using UnityEngine;
 
 namespace Mirror
 {
-    // Deprecated 2021-05-13
-    [HelpURL("https://mirror-networking.gitbook.io/docs/transports/fallback-transport")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Transports/Fallback.html")]
     [DisallowMultipleComponent]
-    [Obsolete("Fallback Transport will be retired. It was only needed for Apathy/Libuv. Use kcp or Telepathy instead, those run everywhere.")]
     public class FallbackTransport : Transport
     {
         public Transport[] transports;
@@ -94,9 +92,9 @@ namespace Mirror
             available.ClientDisconnect();
         }
 
-        public override void ClientSend(ArraySegment<byte> segment, int channelId)
+        public override void ClientSend(int channelId, ArraySegment<byte> segment)
         {
-            available.ClientSend(segment, channelId);
+            available.ClientSend(channelId, segment);
         }
 
         // right now this just returns the first available uri,
@@ -113,14 +111,14 @@ namespace Mirror
             return available.ServerGetClientAddress(connectionId);
         }
 
-        public override void ServerDisconnect(int connectionId)
+        public override bool ServerDisconnect(int connectionId)
         {
-            available.ServerDisconnect(connectionId);
+            return available.ServerDisconnect(connectionId);
         }
 
-        public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
+        public override void ServerSend(int connectionId, int channelId, ArraySegment<byte> segment)
         {
-            available.ServerSend(connectionId, segment, channelId);
+            available.ServerSend(connectionId, channelId, segment);
         }
 
         public override void ServerStart()
@@ -136,11 +134,6 @@ namespace Mirror
         {
             available.ServerStop();
         }
-
-        public override void ClientEarlyUpdate() => available.ClientEarlyUpdate();
-        public override void ServerEarlyUpdate() => available.ServerEarlyUpdate();
-        public override void ClientLateUpdate() => available.ClientLateUpdate();
-        public override void ServerLateUpdate() => available.ServerLateUpdate();
 
         public override void Shutdown()
         {

@@ -9,12 +9,11 @@ namespace Mirror
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkManagerHUD")]
     [RequireComponent(typeof(NetworkManager))]
-    [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-manager-hud")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkManagerHUD.html")]
     public class NetworkManagerHUD : MonoBehaviour
     {
         NetworkManager manager;
 
-        // Deprecated 2021-02-24
         [Obsolete("showGUI will be removed unless someone has a valid use case. Simply use or don't use the HUD component.")]
         public bool showGUI = true;
 
@@ -106,23 +105,14 @@ namespace Mirror
 
         void StatusLabels()
         {
-            // host mode
-            // display separately because this always confused people:
-            //   Server: ...
-            //   Client: ...
-            if (NetworkServer.active && NetworkClient.active)
+            // server / client status message
+            if (NetworkServer.active)
             {
-                GUILayout.Label($"<b>Host</b>: running via {Transport.activeTransport}");
+                GUILayout.Label("Server: active. Transport: " + Transport.activeTransport);
             }
-            // server only
-            else if (NetworkServer.active)
+            if (NetworkClient.isConnected)
             {
-                GUILayout.Label($"<b>Server</b>: running via {Transport.activeTransport}");
-            }
-            // client only
-            else if (NetworkClient.isConnected)
-            {
-                GUILayout.Label($"<b>Client</b>: connected to {manager.networkAddress} via {Transport.activeTransport}");
+                GUILayout.Label("Client: address=" + manager.networkAddress);
             }
         }
 

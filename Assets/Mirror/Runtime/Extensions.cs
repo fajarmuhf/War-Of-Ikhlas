@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Mirror
 {
@@ -27,14 +26,6 @@ namespace Mirror
 #else
             return func.Method.Name;
 #endif
-        }
-
-        // helper function to copy to List<T>
-        // C# only provides CopyTo(T[])
-        public static void CopyTo<T>(this IEnumerable<T> source, List<T> destination)
-        {
-            // foreach allocates. use AddRange.
-            destination.AddRange(source);
         }
     }
 }

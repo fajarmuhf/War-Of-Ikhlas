@@ -137,9 +137,9 @@ namespace Mirror
                 available.ClientDisconnect();
         }
 
-        public override void ClientSend(ArraySegment<byte> segment, int channelId)
+        public override void ClientSend(int channelId, ArraySegment<byte> segment)
         {
-            available.ClientSend(segment, channelId);
+            available.ClientSend(channelId, segment);
         }
 
         #endregion
@@ -224,14 +224,14 @@ namespace Mirror
             return transports[transportId].ServerGetClientAddress(baseConnectionId);
         }
 
-        public override void ServerDisconnect(int connectionId)
+        public override bool ServerDisconnect(int connectionId)
         {
             int baseConnectionId = ToBaseId(connectionId);
             int transportId = ToTransportId(connectionId);
-            transports[transportId].ServerDisconnect(baseConnectionId);
+            return transports[transportId].ServerDisconnect(baseConnectionId);
         }
 
-        public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
+        public override void ServerSend(int connectionId, int channelId, ArraySegment<byte> segment)
         {
             int baseConnectionId = ToBaseId(connectionId);
             int transportId = ToTransportId(connectionId);
@@ -240,7 +240,7 @@ namespace Mirror
             {
                 if (i == transportId)
                 {
-                    transports[i].ServerSend(baseConnectionId, segment, channelId);
+                    transports[i].ServerSend(baseConnectionId, channelId, segment);
                 }
             }
         }

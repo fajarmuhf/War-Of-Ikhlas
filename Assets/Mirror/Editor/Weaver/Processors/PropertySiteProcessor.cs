@@ -6,7 +6,7 @@ namespace Mirror.Weaver
 {
     public static class PropertySiteProcessor
     {
-        public static void Process(ModuleDefinition moduleDef, WeaverLists weaverLists)
+        public static void Process(ModuleDefinition moduleDef)
         {
             DateTime startTime = DateTime.Now;
 
@@ -15,28 +15,28 @@ namespace Mirror.Weaver
             {
                 if (td.IsClass)
                 {
-                    ProcessSiteClass(weaverLists, td);
+                    ProcessSiteClass(td);
                 }
             }
 
             Console.WriteLine("  ProcessSitesModule " + moduleDef.Name + " elapsed time:" + (DateTime.Now - startTime));
         }
 
-        static void ProcessSiteClass(WeaverLists weaverLists, TypeDefinition td)
+        static void ProcessSiteClass(TypeDefinition td)
         {
             //Console.WriteLine("    ProcessSiteClass " + td);
             foreach (MethodDefinition md in td.Methods)
             {
-                ProcessSiteMethod(weaverLists, md);
+                ProcessSiteMethod(md);
             }
 
             foreach (TypeDefinition nested in td.NestedTypes)
             {
-                ProcessSiteClass(weaverLists, nested);
+                ProcessSiteClass(nested);
             }
         }
 
-        static void ProcessSiteMethod(WeaverLists weaverLists, MethodDefinition md)
+        static void ProcessSiteMethod(MethodDefinition md)
         {
             // process all references to replaced members with properties
             //Weaver.DLog(td, "      ProcessSiteMethod " + md);
@@ -56,20 +56,20 @@ namespace Mirror.Weaver
                 for (int iCount = 0; iCount < md.Body.Instructions.Count;)
                 {
                     Instruction instr = md.Body.Instructions[iCount];
-                    iCount += ProcessInstruction(weaverLists, md, instr, iCount);
+                    iCount += ProcessInstruction(md, instr, iCount);
                 }
             }
         }
 
         // replaces syncvar write access with the NetworkXYZ.get property calls
-        static void ProcessInstructionSetterField(WeaverLists weaverLists, MethodDefinition md, Instruction i, FieldDefinition opField)
+        static void ProcessInstructionSetterField(MethodDefinition md, Instruction i, FieldDefinition opField)
         {
             // don't replace property call sites in constructors
             if (md.Name == ".ctor")
                 return;
 
             // does it set a field that we replaced?
-            if (weaverLists.replacementSetterProperties.TryGetValue(opField, out MethodDefinition replacement))
+            if (Weaver.WeaveLists.replacementSetterProperties.TryGetValue(opField, out MethodDefinition replacement))
             {
                 //replace with property
                 //DLog(td, "    replacing "  + md.Name + ":" + i);
@@ -80,14 +80,14 @@ namespace Mirror.Weaver
         }
 
         // replaces syncvar read access with the NetworkXYZ.get property calls
-        static void ProcessInstructionGetterField(WeaverLists weaverLists, MethodDefinition md, Instruction i, FieldDefinition opField)
+        static void ProcessInstructionGetterField(MethodDefinition md, Instruction i, FieldDefinition opField)
         {
             // don't replace property call sites in constructors
             if (md.Name == ".ctor")
                 return;
 
             // does it set a field that we replaced?
-            if (weaverLists.replacementGetterProperties.TryGetValue(opField, out MethodDefinition replacement))
+            if (Weaver.WeaveLists.replacementGetterProperties.TryGetValue(opField, out MethodDefinition replacement))
             {
                 //replace with property
                 //DLog(td, "    replacing "  + md.Name + ":" + i);
@@ -97,38 +97,38 @@ namespace Mirror.Weaver
             }
         }
 
-        static int ProcessInstruction(WeaverLists weaverLists, MethodDefinition md, Instruction instr, int iCount)
+        static int ProcessInstruction(MethodDefinition md, Instruction instr, int iCount)
         {
             if (instr.OpCode == OpCodes.Stfld && instr.Operand is FieldDefinition opFieldst)
             {
                 // this instruction sets the value of a field. cache the field reference.
-                ProcessInstructionSetterField(weaverLists, md, instr, opFieldst);
+                ProcessInstructionSetterField(md, instr, opFieldst);
             }
 
             if (instr.OpCode == OpCodes.Ldfld && instr.Operand is FieldDefinition opFieldld)
             {
                 // this instruction gets the value of a field. cache the field reference.
-                ProcessInstructionGetterField(weaverLists, md, instr, opFieldld);
+                ProcessInstructionGetterField(md, instr, opFieldld);
             }
 
             if (instr.OpCode == OpCodes.Ldflda && instr.Operand is FieldDefinition opFieldlda)
             {
                 // loading a field by reference,  watch out for initobj instruction
                 // see https://github.com/vis2k/Mirror/issues/696
-                return ProcessInstructionLoadAddress(weaverLists, md, instr, opFieldlda, iCount);
+                return ProcessInstructionLoadAddress(md, instr, opFieldlda, iCount);
             }
 
             return 1;
         }
 
-        static int ProcessInstructionLoadAddress(WeaverLists weaverLists, MethodDefinition md, Instruction instr, FieldDefinition opField, int iCount)
+        static int ProcessInstructionLoadAddress(MethodDefinition md, Instruction instr, FieldDefinition opField, int iCount)
         {
             // don't replace property call sites in constructors
             if (md.Name == ".ctor")
                 return 1;
 
             // does it set a field that we replaced?
-            if (weaverLists.replacementSetterProperties.TryGetValue(opField, out MethodDefinition replacement))
+            if (Weaver.WeaveLists.replacementSetterProperties.TryGetValue(opField, out MethodDefinition replacement))
             {
                 // we have a replacement for this property
                 // is the next instruction a initobj?

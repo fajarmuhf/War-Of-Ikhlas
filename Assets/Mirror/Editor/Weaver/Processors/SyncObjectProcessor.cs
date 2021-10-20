@@ -5,9 +5,13 @@ namespace Mirror.Weaver
 {
     public static class SyncObjectProcessor
     {
-        // Finds SyncObjects fields in a type
-        // Type should be a NetworkBehaviour
-        public static List<FieldDefinition> FindSyncObjectsFields(Writers writers, Readers readers, Logger Log, TypeDefinition td, ref bool WeavingFailed)
+        /// <summary>
+        /// Finds SyncObjects fields in a type
+        /// <para>Type should be a NetworkBehaviour</para>
+        /// </summary>
+        /// <param name="td"></param>
+        /// <returns></returns>
+        public static List<FieldDefinition> FindSyncObjectsFields(TypeDefinition td)
         {
             List<FieldDefinition> syncObjects = new List<FieldDefinition>();
 
@@ -17,12 +21,11 @@ namespace Mirror.Weaver
                 {
                     if (fd.IsStatic)
                     {
-                        Log.Error($"{fd.Name} cannot be static", fd);
-                        WeavingFailed = true;
+                        Weaver.Error($"{fd.Name} cannot be static", fd);
                         continue;
                     }
 
-                    GenerateReadersAndWriters(writers, readers, fd.FieldType, ref WeavingFailed);
+                    GenerateReadersAndWriters(fd.FieldType);
 
                     syncObjects.Add(fd);
                 }
@@ -32,8 +35,12 @@ namespace Mirror.Weaver
             return syncObjects;
         }
 
-        // Generates serialization methods for synclists
-        static void GenerateReadersAndWriters(Writers writers, Readers readers, TypeReference tr, ref bool WeavingFailed)
+        /// <summary>
+        /// Generates serialization methods for synclists
+        /// </summary>
+        /// <param name="td">The synclist class</param>
+        /// <param name="mirrorBaseType">the base SyncObject td inherits from</param>
+        static void GenerateReadersAndWriters(TypeReference tr)
         {
             if (tr is GenericInstanceType genericInstance)
             {
@@ -41,15 +48,15 @@ namespace Mirror.Weaver
                 {
                     if (!argument.IsGenericParameter)
                     {
-                        readers.GetReadFunc(argument, ref WeavingFailed);
-                        writers.GetWriteFunc(argument, ref WeavingFailed);
+                        Readers.GetReadFunc(argument);
+                        Writers.GetWriteFunc(argument);
                     }
                 }
             }
 
             if (tr != null)
             {
-                GenerateReadersAndWriters(writers, readers, tr.Resolve().BaseType, ref WeavingFailed);
+                GenerateReadersAndWriters(tr.Resolve().BaseType);
             }
         }
     }

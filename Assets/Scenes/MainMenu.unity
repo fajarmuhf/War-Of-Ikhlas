@@ -476,15 +476,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Port: 7777
-  DualMode: 1
   NoDelay: 1
   Interval: 10
-  Timeout: 10000
   FastResend: 2
   CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
-  NonAlloc: 1
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
@@ -505,6 +502,8 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
+  serverBatching: 1
+  serverBatchInterval: 0
   offlineScene: 
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 975680473}
@@ -513,10 +512,12 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 0}
+  playerPrefab: {fileID: 5053980871744965489, guid: 81239110c6f9849f3872c01e69a631c1,
+    type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 4551400345267832380, guid: 4a44c40abf4054803830bbf2c04ff709, type: 3}
 --- !u!4 &975680475
 Transform:
   m_ObjectHideFlags: 0

@@ -140,7 +140,8 @@ namespace Mirror.Authenticators
         /// <summary>
         /// Called on client from OnClientAuthenticateInternal when a client needs to authenticate
         /// </summary>
-        public override void OnClientAuthenticate()
+        /// <param name="conn">Connection of the client.</param>
+        public override void OnClientAuthenticate(NetworkConnection conn)
         {
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
@@ -148,16 +149,13 @@ namespace Mirror.Authenticators
                 authPassword = password
             };
 
-            NetworkClient.connection.Send(authRequestMessage);
+            conn.Send(authRequestMessage);
         }
-
-        // Deprecated 2021-04-29
-        [Obsolete("Call OnAuthResponseMessage without the NetworkConnection parameter. It always points to NetworkClient.connection anyway.")]
-        public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg) => OnAuthResponseMessage(msg);
 
         /// <summary>
         /// Called on client when the server's AuthResponseMessage arrives
         /// </summary>
+        /// <param name="conn">Connection to client.</param>
         /// <param name="msg">The message payload</param>
         public void OnAuthResponseMessage(AuthResponseMessage msg)
         {
@@ -166,16 +164,19 @@ namespace Mirror.Authenticators
                 // Debug.LogFormat(LogType.Log, "Authentication Response: {0}", msg.message);
 
                 // Authentication has been accepted
-                ClientAccept();
+                ClientAccept(NetworkClient.connection);
             }
             else
             {
                 Debug.LogError($"Authentication Response: {msg.message}");
 
                 // Authentication has been rejected
-                ClientReject();
+                ClientReject(NetworkClient.connection);
             }
         }
+
+        [Obsolete("Call OnAuthResponseMessage without the NetworkConnection parameter. It always points to NetworkClient.connection anyway.")]
+        public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg) => OnAuthResponseMessage(msg);
 
         #endregion
     }

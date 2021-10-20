@@ -5,31 +5,20 @@ using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
-    // Processes [SyncVar] in NetworkBehaviour
-    // not static, because ILPostProcessor is multithreaded
-    public class SyncVarProcessor
+    /// <summary>
+    /// Processes [SyncVar] in NetworkBehaviour
+    /// </summary>
+    public static class SyncVarProcessor
     {
         // ulong = 64 bytes
         const int SyncVarLimit = 64;
 
-        AssemblyDefinition assembly;
-        WeaverTypes weaverTypes;
-        WeaverLists weaverLists;
-        Logger Log;
 
-        string HookParameterMessage(string hookName, TypeReference ValueType) =>
-            $"void {hookName}({ValueType} oldValue, {ValueType} newValue)";
-
-        public SyncVarProcessor(AssemblyDefinition assembly, WeaverTypes weaverTypes, WeaverLists weaverLists, Logger Log)
-        {
-            this.assembly = assembly;
-            this.weaverTypes = weaverTypes;
-            this.weaverLists = weaverLists;
-            this.Log = Log;
-        }
+        static string HookParameterMessage(string hookName, TypeReference ValueType)
+            => string.Format("void {0}({1} oldValue, {1} newValue)", hookName, ValueType);
 
         // Get hook method if any
-        public MethodDefinition GetHookMethod(TypeDefinition td, FieldDefinition syncVar, ref bool WeavingFailed)
+        public static MethodDefinition GetHookMethod(TypeDefinition td, FieldDefinition syncVar)
         {
             CustomAttribute syncVarAttr = syncVar.GetCustomAttribute<SyncVarAttribute>();
 
@@ -41,10 +30,10 @@ namespace Mirror.Weaver
             if (hookFunctionName == null)
                 return null;
 
-            return FindHookMethod(td, syncVar, hookFunctionName, ref WeavingFailed);
+            return FindHookMethod(td, syncVar, hookFunctionName);
         }
 
-        MethodDefinition FindHookMethod(TypeDefinition td, FieldDefinition syncVar, string hookFunctionName, ref bool WeavingFailed)
+        static MethodDefinition FindHookMethod(TypeDefinition td, FieldDefinition syncVar, string hookFunctionName)
         {
             List<MethodDefinition> methods = td.GetMethods(hookFunctionName);
 
@@ -52,10 +41,9 @@ namespace Mirror.Weaver
 
             if (methodsWith2Param.Count == 0)
             {
-                Log.Error($"Could not find hook for '{syncVar.Name}', hook name '{hookFunctionName}'. " +
+                Weaver.Error($"Could not find hook for '{syncVar.Name}', hook name '{hookFunctionName}'. " +
                     $"Method signature should be {HookParameterMessage(hookFunctionName, syncVar.FieldType)}",
                     syncVar);
-                WeavingFailed = true;
 
                 return null;
             }
@@ -68,22 +56,21 @@ namespace Mirror.Weaver
                 }
             }
 
-            Log.Error($"Wrong type for Parameter in hook for '{syncVar.Name}', hook name '{hookFunctionName}'. " +
+            Weaver.Error($"Wrong type for Parameter in hook for '{syncVar.Name}', hook name '{hookFunctionName}'. " +
                      $"Method signature should be {HookParameterMessage(hookFunctionName, syncVar.FieldType)}",
                    syncVar);
-            WeavingFailed = true;
 
             return null;
         }
 
-        bool MatchesParameters(FieldDefinition syncVar, MethodDefinition method)
+        static bool MatchesParameters(FieldDefinition syncVar, MethodDefinition method)
         {
             // matches void onValueChange(T oldValue, T newValue)
             return method.Parameters[0].ParameterType.FullName == syncVar.FieldType.FullName &&
                    method.Parameters[1].ParameterType.FullName == syncVar.FieldType.FullName;
         }
 
-        public MethodDefinition GenerateSyncVarGetter(FieldDefinition fd, string originalName, FieldDefinition netFieldId)
+        public static MethodDefinition GenerateSyncVarGetter(FieldDefinition fd, string originalName, FieldDefinition netFieldId)
         {
             //Create the get method
             MethodDefinition get = new MethodDefinition(
@@ -104,7 +91,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldfld, netFieldId);
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, fd);
-                worker.Emit(OpCodes.Call, weaverTypes.getSyncVarGameObjectReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.getSyncVarGameObjectReference);
                 worker.Emit(OpCodes.Ret);
             }
             // [SyncVar] NetworkIdentity?
@@ -117,7 +104,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldfld, netFieldId);
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, fd);
-                worker.Emit(OpCodes.Call, weaverTypes.getSyncVarNetworkIdentityReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.getSyncVarNetworkIdentityReference);
                 worker.Emit(OpCodes.Ret);
             }
             else if (fd.FieldType.IsDerivedFrom<NetworkBehaviour>())
@@ -129,7 +116,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldfld, netFieldId);
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, fd);
-                MethodReference getFunc = weaverTypes.getSyncVarNetworkBehaviourReference.MakeGeneric(assembly.MainModule, fd.FieldType);
+                MethodReference getFunc = WeaverTypes.getSyncVarNetworkBehaviourReference.MakeGeneric(fd.FieldType);
                 worker.Emit(OpCodes.Call, getFunc);
                 worker.Emit(OpCodes.Ret);
             }
@@ -148,13 +135,13 @@ namespace Mirror.Weaver
             return get;
         }
 
-        public MethodDefinition GenerateSyncVarSetter(TypeDefinition td, FieldDefinition fd, string originalName, long dirtyBit, FieldDefinition netFieldId, ref bool WeavingFailed)
+        public static MethodDefinition GenerateSyncVarSetter(TypeDefinition td, FieldDefinition fd, string originalName, long dirtyBit, FieldDefinition netFieldId)
         {
             //Create the set method
             MethodDefinition set = new MethodDefinition("set_Network" + originalName, MethodAttributes.Public |
                     MethodAttributes.SpecialName |
                     MethodAttributes.HideBySig,
-                    weaverTypes.Import(typeof(void)));
+                    WeaverTypes.Import(typeof(void)));
 
             ILProcessor worker = set.Body.GetILProcessor();
 
@@ -173,7 +160,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldfld, netFieldId);
 
-                worker.Emit(OpCodes.Call, weaverTypes.syncVarGameObjectEqualReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.syncVarGameObjectEqualReference);
             }
             else if (fd.FieldType.Is<NetworkIdentity>())
             {
@@ -181,7 +168,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldfld, netFieldId);
 
-                worker.Emit(OpCodes.Call, weaverTypes.syncVarNetworkIdentityEqualReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.syncVarNetworkIdentityEqualReference);
             }
             else if (fd.FieldType.IsDerivedFrom<NetworkBehaviour>())
             {
@@ -189,7 +176,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldfld, netFieldId);
 
-                MethodReference getFunc = weaverTypes.syncVarNetworkBehaviourEqualReference.MakeGeneric(assembly.MainModule, fd.FieldType);
+                MethodReference getFunc = WeaverTypes.syncVarNetworkBehaviourEqualReference.MakeGeneric(fd.FieldType);
                 worker.Emit(OpCodes.Call, getFunc);
             }
             else
@@ -197,7 +184,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, fd);
 
-                GenericInstanceMethod syncVarEqualGm = new GenericInstanceMethod(weaverTypes.syncVarEqualReference);
+                GenericInstanceMethod syncVarEqualGm = new GenericInstanceMethod(WeaverTypes.syncVarEqualReference);
                 syncVarEqualGm.GenericArguments.Add(fd.FieldType);
                 worker.Emit(OpCodes.Call, syncVarEqualGm);
             }
@@ -232,7 +219,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, netFieldId);
 
-                worker.Emit(OpCodes.Call, weaverTypes.setSyncVarGameObjectReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.setSyncVarGameObjectReference);
             }
             else if (fd.FieldType.Is<NetworkIdentity>())
             {
@@ -240,7 +227,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, netFieldId);
 
-                worker.Emit(OpCodes.Call, weaverTypes.setSyncVarNetworkIdentityReference);
+                worker.Emit(OpCodes.Call, WeaverTypes.setSyncVarNetworkIdentityReference);
             }
             else if (fd.FieldType.IsDerivedFrom<NetworkBehaviour>())
             {
@@ -248,37 +235,37 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldflda, netFieldId);
 
-                MethodReference getFunc = weaverTypes.setSyncVarNetworkBehaviourReference.MakeGeneric(assembly.MainModule, fd.FieldType);
+                MethodReference getFunc = WeaverTypes.setSyncVarNetworkBehaviourReference.MakeGeneric(fd.FieldType);
                 worker.Emit(OpCodes.Call, getFunc);
             }
             else
             {
                 // make generic version of SetSyncVar with field type
-                GenericInstanceMethod gm = new GenericInstanceMethod(weaverTypes.setSyncVarReference);
+                GenericInstanceMethod gm = new GenericInstanceMethod(WeaverTypes.setSyncVarReference);
                 gm.GenericArguments.Add(fd.FieldType);
 
                 // invoke SetSyncVar
                 worker.Emit(OpCodes.Call, gm);
             }
 
-            MethodDefinition hookMethod = GetHookMethod(td, fd, ref WeavingFailed);
+            MethodDefinition hookMethod = GetHookMethod(td, fd);
 
             if (hookMethod != null)
             {
                 //if (NetworkServer.localClientActive && !getSyncVarHookGuard(dirtyBit))
                 Instruction label = worker.Create(OpCodes.Nop);
-                worker.Emit(OpCodes.Call, weaverTypes.NetworkServerGetLocalClientActive);
+                worker.Emit(OpCodes.Call, WeaverTypes.NetworkServerGetLocalClientActive);
                 worker.Emit(OpCodes.Brfalse, label);
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldc_I8, dirtyBit);
-                worker.Emit(OpCodes.Call, weaverTypes.getSyncVarHookGuard);
+                worker.Emit(OpCodes.Call, WeaverTypes.getSyncVarHookGuard);
                 worker.Emit(OpCodes.Brtrue, label);
 
                 // setSyncVarHookGuard(dirtyBit, true);
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldc_I8, dirtyBit);
                 worker.Emit(OpCodes.Ldc_I4_1);
-                worker.Emit(OpCodes.Call, weaverTypes.setSyncVarHookGuard);
+                worker.Emit(OpCodes.Call, WeaverTypes.setSyncVarHookGuard);
 
                 // call hook (oldValue, newValue)
                 // Generates: OnValueChanged(oldValue, value);
@@ -288,7 +275,7 @@ namespace Mirror.Weaver
                 worker.Emit(OpCodes.Ldarg_0);
                 worker.Emit(OpCodes.Ldc_I8, dirtyBit);
                 worker.Emit(OpCodes.Ldc_I4_0);
-                worker.Emit(OpCodes.Call, weaverTypes.setSyncVarHookGuard);
+                worker.Emit(OpCodes.Call, WeaverTypes.setSyncVarHookGuard);
 
                 worker.Append(label);
             }
@@ -303,9 +290,10 @@ namespace Mirror.Weaver
             return set;
         }
 
-        public void ProcessSyncVar(TypeDefinition td, FieldDefinition fd, Dictionary<FieldDefinition, FieldDefinition> syncVarNetIds, long dirtyBit, ref bool WeavingFailed)
+        public static void ProcessSyncVar(TypeDefinition td, FieldDefinition fd, Dictionary<FieldDefinition, FieldDefinition> syncVarNetIds, long dirtyBit)
         {
             string originalName = fd.Name;
+            Weaver.DLog(td, "Sync Var " + fd.Name + " " + fd.FieldType);
 
             // GameObject/NetworkIdentity SyncVars have a new field for netId
             FieldDefinition netIdField = null;
@@ -314,7 +302,7 @@ namespace Mirror.Weaver
             {
                 netIdField = new FieldDefinition("___" + fd.Name + "NetId",
                    FieldAttributes.Private,
-                   weaverTypes.Import<NetworkBehaviour.NetworkBehaviourSyncVar>());
+                   WeaverTypes.Import<NetworkBehaviour.NetworkBehaviourSyncVar>());
 
                 syncVarNetIds[fd] = netIdField;
             }
@@ -322,13 +310,13 @@ namespace Mirror.Weaver
             {
                 netIdField = new FieldDefinition("___" + fd.Name + "NetId",
                     FieldAttributes.Private,
-                    weaverTypes.Import<uint>());
+                    WeaverTypes.Import<uint>());
 
                 syncVarNetIds[fd] = netIdField;
             }
 
             MethodDefinition get = GenerateSyncVarGetter(fd, originalName, netIdField);
-            MethodDefinition set = GenerateSyncVarSetter(td, fd, originalName, dirtyBit, netIdField, ref WeavingFailed);
+            MethodDefinition set = GenerateSyncVarSetter(td, fd, originalName, dirtyBit, netIdField);
 
             //NOTE: is property even needed? Could just use a setter function?
             //create the property
@@ -342,7 +330,7 @@ namespace Mirror.Weaver
             td.Methods.Add(get);
             td.Methods.Add(set);
             td.Properties.Add(propertyDefinition);
-            weaverLists.replacementSetterProperties[fd] = set;
+            Weaver.WeaveLists.replacementSetterProperties[fd] = set;
 
             // replace getter field if GameObject/NetworkIdentity so it uses
             // netId instead
@@ -350,18 +338,18 @@ namespace Mirror.Weaver
             //    end up in recursion.
             if (fd.FieldType.IsNetworkIdentityField())
             {
-                weaverLists.replacementGetterProperties[fd] = get;
+                Weaver.WeaveLists.replacementGetterProperties[fd] = get;
             }
         }
 
-        public (List<FieldDefinition> syncVars, Dictionary<FieldDefinition, FieldDefinition> syncVarNetIds) ProcessSyncVars(TypeDefinition td, ref bool WeavingFailed)
+        public static (List<FieldDefinition> syncVars, Dictionary<FieldDefinition, FieldDefinition> syncVarNetIds) ProcessSyncVars(TypeDefinition td)
         {
             List<FieldDefinition> syncVars = new List<FieldDefinition>();
             Dictionary<FieldDefinition, FieldDefinition> syncVarNetIds = new Dictionary<FieldDefinition, FieldDefinition>();
 
             // the mapping of dirtybits to sync-vars is implicit in the order of the fields here. this order is recorded in m_replacementProperties.
             // start assigning syncvars at the place the base class stopped, if any
-            int dirtyBitCounter = weaverLists.GetSyncVarStart(td.BaseType.FullName);
+            int dirtyBitCounter = Weaver.WeaveLists.GetSyncVarStart(td.BaseType.FullName);
 
             // find syncvars
             foreach (FieldDefinition fd in td.Fields)
@@ -370,33 +358,30 @@ namespace Mirror.Weaver
                 {
                     if ((fd.Attributes & FieldAttributes.Static) != 0)
                     {
-                        Log.Error($"{fd.Name} cannot be static", fd);
-                        WeavingFailed = true;
+                        Weaver.Error($"{fd.Name} cannot be static", fd);
                         continue;
                     }
 
                     if (fd.FieldType.IsArray)
                     {
-                        Log.Error($"{fd.Name} has invalid type. Use SyncLists instead of arrays", fd);
-                        WeavingFailed = true;
+                        Weaver.Error($"{fd.Name} has invalid type. Use SyncLists instead of arrays", fd);
                         continue;
                     }
 
                     if (SyncObjectInitializer.ImplementsSyncObject(fd.FieldType))
                     {
-                        Log.Warning($"{fd.Name} has [SyncVar] attribute. SyncLists should not be marked with SyncVar", fd);
+                        Weaver.Warning($"{fd.Name} has [SyncVar] attribute. SyncLists should not be marked with SyncVar", fd);
                     }
                     else
                     {
                         syncVars.Add(fd);
 
-                        ProcessSyncVar(td, fd, syncVarNetIds, 1L << dirtyBitCounter, ref WeavingFailed);
+                        ProcessSyncVar(td, fd, syncVarNetIds, 1L << dirtyBitCounter);
                         dirtyBitCounter += 1;
 
                         if (dirtyBitCounter == SyncVarLimit)
                         {
-                            Log.Error($"{td.Name} has too many SyncVars. Consider refactoring your class into multiple components", td);
-                            WeavingFailed = true;
+                            Weaver.Error($"{td.Name} has too many SyncVars. Consider refactoring your class into multiple components", td);
                             continue;
                         }
                     }
@@ -408,28 +393,27 @@ namespace Mirror.Weaver
             {
                 td.Fields.Add(fd);
             }
-            weaverLists.SetNumSyncVars(td.FullName, syncVars.Count);
+            Weaver.WeaveLists.SetNumSyncVars(td.FullName, syncVars.Count);
 
             return (syncVars, syncVarNetIds);
         }
 
-        public void WriteCallHookMethodUsingArgument(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue)
+        public static void WriteCallHookMethodUsingArgument(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue)
         {
             WriteCallHookMethod(worker, hookMethod, oldValue, null);
         }
 
-        public void WriteCallHookMethodUsingField(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue, FieldDefinition newValue, ref bool WeavingFailed)
+        public static void WriteCallHookMethodUsingField(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue, FieldDefinition newValue)
         {
             if (newValue == null)
             {
-                Log.Error("NewValue field was null when writing SyncVar hook");
-                WeavingFailed = true;
+                Weaver.Error("NewValue field was null when writing SyncVar hook");
             }
 
             WriteCallHookMethod(worker, hookMethod, oldValue, newValue);
         }
 
-        void WriteCallHookMethod(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue, FieldDefinition newValue)
+        static void WriteCallHookMethod(ILProcessor worker, MethodDefinition hookMethod, VariableDefinition oldValue, FieldDefinition newValue)
         {
             WriteStartFunctionCall();
 

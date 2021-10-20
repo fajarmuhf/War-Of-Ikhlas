@@ -43,6 +43,8 @@ public class PickPlayerController : MonoBehaviour
 
     public void PickPemain()
     {
+        PlayerPrefs.SetInt("TipePemain", pilihPemain);
+        PlayerPrefs.Save();
         NetworkManager networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         networkManager.networkAddress = "localhost";
         networkManager.StartClient();

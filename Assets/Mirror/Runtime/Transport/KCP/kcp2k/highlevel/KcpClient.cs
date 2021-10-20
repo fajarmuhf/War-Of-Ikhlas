@@ -22,12 +22,7 @@ namespace kcp2k
             this.OnDisconnected = OnDisconnected;
         }
 
-        // CreateConnection can be overwritten for where-allocation:
-        // https://github.com/vis2k/where-allocation
-        protected virtual KcpClientConnection CreateConnection() =>
-            new KcpClientConnection();
-
-        public void Connect(string address, ushort port, bool noDelay, uint interval, int fastResend = 0, bool congestionWindow = true, uint sendWindowSize = Kcp.WND_SND, uint receiveWindowSize = Kcp.WND_RCV, int timeout = KcpConnection.DEFAULT_TIMEOUT)
+        public void Connect(string address, ushort port, bool noDelay, uint interval, int fastResend = 0, bool congestionWindow = true, uint sendWindowSize = Kcp.WND_SND, uint receiveWindowSize = Kcp.WND_RCV)
         {
             if (connected)
             {
@@ -35,8 +30,7 @@ namespace kcp2k
                 return;
             }
 
-            // create connection
-            connection = CreateConnection();
+            connection = new KcpClientConnection();
 
             // setup events
             connection.OnAuthenticated = () =>
@@ -59,7 +53,7 @@ namespace kcp2k
             };
 
             // connect
-            connection.Connect(address, port, noDelay, interval, fastResend, congestionWindow, sendWindowSize, receiveWindowSize, timeout);
+            connection.Connect(address, port, noDelay, interval, fastResend, congestionWindow, sendWindowSize, receiveWindowSize);
         }
 
         public void Send(ArraySegment<byte> segment, KcpChannel channel)
