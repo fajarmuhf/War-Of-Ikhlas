@@ -11,7 +11,7 @@
     <key>CFBundleIconFile</key>
     <string>PlayerIcon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.DefaultCompany.com.unity.template.mobile2D</string>
+    <string>com.DefaultCompany.WarofIkhlas</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
