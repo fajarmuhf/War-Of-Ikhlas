@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -15,24 +16,24 @@ public class Player : NetworkBehaviour
     public NetworkMatchChecker networkMatchChecker;
     public GameObject pivot;
     public GameObject playerLobbyUI;
+    public FixedJoystick joystick;
+    public Animator animator;
 
     [Header("SyncVar setting")]
     [SyncVar] public string MatchID;
     [SyncVar] public int playerIndex;
     [SyncVar] public string interaksi;
-    [SyncVar] public string direction;
-    [SyncVar] public string direction2;
-    [SyncVar] public string direction3;
-    [SyncVar] public string direction4;
+    [SyncVar] public string directionH;
+    [SyncVar] public string directionV;
     [SyncVar] public string directionRot;
     [SyncVar] public string directionRot2;
-    [SyncVar] public float InputMX;
-    [SyncVar] public float InputMY;
+    [SyncVar] public float InputJX;
+    [SyncVar] public float InputJY;
     [SyncVar] public int playerType;
 
-    [Header("Movement Settings")]
-    public float moveSpeed = 8f;
-    public float maxTurnSpeed = 150f;
+    [Header("Player Settings")]
+    public int speed;
+
     // Pada saat mulai koneksi client
     public override void OnStartClient()
     {
@@ -48,6 +49,10 @@ public class Player : NetworkBehaviour
                 Debug.Log("Tipe : "+PlayerPrefs.GetInt("TipePemain"));
                 Choice(PlayerPrefs.GetInt("TipePemain"));
             }
+            directionH = "nothing";
+            directionV = "nothing";
+            InputJX = 0;
+            InputJY = 0;
         }
         else
         {
@@ -75,14 +80,120 @@ public class Player : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(6,6);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //dijalankan di server
+        if (isServer)
+        {
+            Debug.Log("DirectionH "+directionH);
+            Debug.Log("DirectionV " + directionV);
+            if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
+            {
+                Vector3 change = new Vector3(InputJX,InputJY,0);
+                GetComponent<Rigidbody2D>().MovePosition(transform.position + change * speed *Time.deltaTime);
+            }
+        }
+        //Jika player tidak punya autoritas maka keluar
+        if (!hasAuthority) { return; }
+
+        if (isLocalPlayer)
+        {
+            try
+            {
+                joystick = GameObject.Find("Canvas").transform.Find("Fixed Joystick").GetComponent<FixedJoystick>();
+
+                if (joystick != null)
+                {
+                    if (joystick.Horizontal < 0)
+                    {
+                        CmdMoveLeftSide(joystick.Horizontal);
+                        animator.SetFloat("moveX", joystick.Horizontal);
+                        animator.SetBool("moving", true);
+                    }
+                    if (joystick.Horizontal > 0)
+                    {
+                        CmdMoveRightSide(joystick.Horizontal);
+                        animator.SetFloat("moveX", joystick.Horizontal);
+                        animator.SetBool("moving", true);
+                    }
+                    if (joystick.Horizontal == 0)
+                    {
+                        CmdMoveReleaseH();
+                    }
+
+                    if (joystick.Vertical < 0)
+                    {
+                        CmdMoveDownSide(joystick.Vertical);
+                        animator.SetFloat("moveY", joystick.Vertical);
+                        animator.SetBool("moving", true);
+                    }
+                    if (joystick.Vertical > 0)
+                    {
+                        CmdMoveUpSide(joystick.Vertical);
+                        animator.SetFloat("moveY", joystick.Vertical);
+                        animator.SetBool("moving", true);
+                    }
+                    if (joystick.Vertical == 0)
+                    {
+                        CmdMoveReleaseV();
+                    }
+                    if(joystick.Vertical == 0 && joystick.Horizontal == 0)
+                    {
+                        animator.SetBool("moving", false);
+                    }
+                }
+            }catch (Exception e)
+            {
+
+            }
+        }
     }
 
+    [Command]
+    private void CmdMoveReleaseH()
+    {
+        InputJX = 0;
+        directionH = "nothing";
+    }
+
+    [Command]
+    private void CmdMoveReleaseV()
+    {
+        InputJY = 0;
+        directionV = "nothing";
+    }
+
+    [Command]
+    private void CmdMoveLeftSide(float input)
+    {
+        InputJX = input;
+        directionH = "left";
+    }
+
+    [Command]
+    private void CmdMoveRightSide(float input)
+    {
+        InputJX = input;
+        directionH = "right";
+    }
+
+    [Command]
+    private void CmdMoveUpSide(float input)
+    {
+        InputJY = input;
+        directionV = "up";
+    }
+
+    [Command]
+    private void CmdMoveDownSide(float input)
+    {
+        InputJY = input;
+        directionV = "down";
+    }
     void Awake()
     {
         DontDestroyOnLoad(this);
