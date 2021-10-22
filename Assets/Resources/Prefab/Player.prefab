@@ -134,12 +134,15 @@ MonoBehaviour:
   interaksi: 
   directionH: 
   directionV: 
+  directionAttack: 
   directionRot: 
   directionRot2: 
   InputJX: 0
   InputJY: 0
   playerType: 0
   speed: 1.5
+  minPosition: {x: 0, y: -10}
+  maxPosition: {x: 2, y: 0}
 --- !u!114 &1444302555438905624
 MonoBehaviour:
   m_ObjectHideFlags: 0

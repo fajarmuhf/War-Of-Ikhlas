@@ -34,6 +34,8 @@ public class Player : NetworkBehaviour
 
     [Header("Player Settings")]
     public float speed;
+    public Vector2 minPosition;
+    public Vector2 maxPosition;
 
     // Pada saat mulai koneksi client
     public override void OnStartClient()
@@ -96,6 +98,8 @@ public class Player : NetworkBehaviour
             if(mainkamera.transform.position != transform.position)
             {
                 Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, mainkamera.transform.position.z);
+                targetPosition.x = Mathf.Clamp(targetPosition.x,minPosition.x,maxPosition.x);
+                targetPosition.y = Mathf.Clamp(targetPosition.y, minPosition.y, maxPosition.y);
                 mainkamera.transform.position = Vector3.Lerp(mainkamera.transform.position,targetPosition,0.1f);
             }
         }
