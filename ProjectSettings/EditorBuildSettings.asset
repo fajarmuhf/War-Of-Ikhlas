@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 941595b1557c94baba9344fdfe4f9122
+  - enabled: 1
+    path: Assets/Scenes/Homestead.unity
+    guid: 824d957482a0447e3b3babc24a1c735e
   m_configObjects: {}

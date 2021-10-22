@@ -5,6 +5,7 @@ using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 /*
  * Match
@@ -62,6 +63,11 @@ public class MatchMaker : NetworkBehaviour
     {
         Debug.Log("match ok");
         instance = this;
+
+        if (isServer)
+        {
+            SceneManager.LoadScene("Homestead", LoadSceneMode.Additive);
+        }
     }
 
     //fungsi untuk mendapatkan random untuk match id

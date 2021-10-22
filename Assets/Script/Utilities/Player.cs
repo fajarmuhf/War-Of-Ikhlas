@@ -32,7 +32,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public int playerType;
 
     [Header("Player Settings")]
-    public int speed;
+    public float speed;
 
     // Pada saat mulai koneksi client
     public override void OnStartClient()
@@ -93,8 +93,11 @@ public class Player : NetworkBehaviour
             Debug.Log("DirectionV " + directionV);
             if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
             {
-                Vector3 change = new Vector3(InputJX,InputJY,0);
-                GetComponent<Rigidbody2D>().MovePosition(transform.position + change * speed *Time.deltaTime);
+                Vector2 change = new Vector3(InputJX,InputJY);
+                Vector2 smoothVelocity = new Vector2(0,0);
+                float smoothTime = 0f;
+                Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * speed, ref smoothVelocity, smoothTime);
+                GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) *Time.deltaTime);
             }
         }
         //Jika player tidak punya autoritas maka keluar
