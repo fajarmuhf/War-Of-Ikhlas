@@ -11,6 +11,11 @@ public class MapManager : MonoBehaviour
         SceneManager.LoadScene("Homestead", LoadSceneMode.Additive);
     }
 
+    public void AttackClick()
+    {
+        Player.localPlayer.Attack();
+    }
+
     // Update is called once per frame
     void Update()
     {

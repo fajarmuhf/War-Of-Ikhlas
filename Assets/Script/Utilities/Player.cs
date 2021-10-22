@@ -25,6 +25,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public string interaksi;
     [SyncVar] public string directionH;
     [SyncVar] public string directionV;
+    [SyncVar] public string directionAttack;
     [SyncVar] public string directionRot;
     [SyncVar] public string directionRot2;
     [SyncVar] public float InputJX;
@@ -51,6 +52,7 @@ public class Player : NetworkBehaviour
             }
             directionH = "nothing";
             directionV = "nothing";
+            directionAttack = "nothing";
             InputJX = 0;
             InputJY = 0;
         }
@@ -83,21 +85,64 @@ public class Player : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(6,6);
     }
 
+    void LateUpdate()
+    {
+        //Jika player tidak punya autoritas maka keluar
+        if (!hasAuthority) { return; }
+
+        if (isLocalPlayer)
+        {
+            GameObject mainkamera = GameObject.Find("Main Camera");
+            if(mainkamera.transform.position != transform.position)
+            {
+                Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, mainkamera.transform.position.z);
+                mainkamera.transform.position = Vector3.Lerp(mainkamera.transform.position,targetPosition,0.1f);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         //dijalankan di server
         if (isServer)
         {
-            Debug.Log("DirectionH "+directionH);
-            Debug.Log("DirectionV " + directionV);
+            if(directionAttack == "attack")
+            {
+                animator.SetBool("attacking", true);
+                StartCoroutine(StopAttack());
+            }
             if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
             {
+                if (directionH == "left")
+                {
+                    animator.SetFloat("moveX", InputJX);
+                    animator.SetBool("moving", true);
+                }
+                if (directionH == "right")
+                {
+                    animator.SetFloat("moveX", InputJX);
+                    animator.SetBool("moving", true);
+                }
+                if (directionV == "up")
+                {
+                    animator.SetFloat("moveY", InputJY);
+                    animator.SetBool("moving", true);
+                }
+                if (directionV == "down")
+                {
+                    animator.SetFloat("moveY", InputJY);
+                    animator.SetBool("moving", true);
+                }
                 Vector2 change = new Vector3(InputJX,InputJY);
                 Vector2 smoothVelocity = new Vector2(0,0);
                 float smoothTime = 0f;
                 Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * speed, ref smoothVelocity, smoothTime);
                 GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) *Time.deltaTime);
+            }
+            else
+            {
+                animator.SetBool("moving", false);
             }
         }
         //Jika player tidak punya autoritas maka keluar
@@ -114,14 +159,10 @@ public class Player : NetworkBehaviour
                     if (joystick.Horizontal < 0)
                     {
                         CmdMoveLeftSide(joystick.Horizontal);
-                        animator.SetFloat("moveX", joystick.Horizontal);
-                        animator.SetBool("moving", true);
                     }
                     if (joystick.Horizontal > 0)
                     {
                         CmdMoveRightSide(joystick.Horizontal);
-                        animator.SetFloat("moveX", joystick.Horizontal);
-                        animator.SetBool("moving", true);
                     }
                     if (joystick.Horizontal == 0)
                     {
@@ -131,22 +172,14 @@ public class Player : NetworkBehaviour
                     if (joystick.Vertical < 0)
                     {
                         CmdMoveDownSide(joystick.Vertical);
-                        animator.SetFloat("moveY", joystick.Vertical);
-                        animator.SetBool("moving", true);
                     }
                     if (joystick.Vertical > 0)
                     {
                         CmdMoveUpSide(joystick.Vertical);
-                        animator.SetFloat("moveY", joystick.Vertical);
-                        animator.SetBool("moving", true);
                     }
                     if (joystick.Vertical == 0)
                     {
                         CmdMoveReleaseV();
-                    }
-                    if(joystick.Vertical == 0 && joystick.Horizontal == 0)
-                    {
-                        animator.SetBool("moving", false);
                     }
                 }
             }catch (Exception e)
@@ -154,6 +187,39 @@ public class Player : NetworkBehaviour
 
             }
         }
+    }
+
+    public void Attack()
+    {
+        CmdAttack();
+    }
+
+    public IEnumerator StopAttack()
+    {
+        int animHash = Animator.StringToHash("Base Layer.attackDown");
+        while (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animHash)
+        {
+            yield return null;
+        }
+
+        float counter = 0;
+        float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        //Now, Wait until the current state is done playing
+        while (counter < (waitTime))
+        {
+            counter += Time.deltaTime;
+            yield return null;
+        }
+
+        animator.SetBool("attacking", false);
+        directionAttack = "nothing";
+    }
+
+    [Command]
+    private void CmdAttack()
+    {
+        directionAttack = "attack";
     }
 
     [Command]
