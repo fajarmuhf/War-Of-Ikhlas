@@ -31,6 +31,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public float InputJX;
     [SyncVar] public float InputJY;
     [SyncVar] public int playerType;
+    [SyncVar] public int mapLoad;
 
     [Header("Player Settings")]
     public float speed;
@@ -111,7 +112,7 @@ public class Player : NetworkBehaviour
         //dijalankan di server
         if (isServer)
         {
-            if(directionAttack == "attack")
+            if (directionAttack == "attack")
             {
                 animator.SetBool("attacking", true);
                 StartCoroutine(StopAttack());
@@ -191,6 +192,41 @@ public class Player : NetworkBehaviour
 
             }
         }
+    }
+
+    public void mapLoaded()
+    {
+        CmdMapLoaded();
+    }
+
+    [Command]
+    public void CmdMapLoaded()
+    {
+        mapLoad = 1;
+
+        
+        int loadCount = 0;
+        int maxCount = 0;
+        for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        {
+            if (MatchMaker.instance.matches[i].matchId == MatchID)
+            {
+                maxCount = MatchMaker.instance.matches[i].players.Count;
+                foreach (var player in MatchMaker.instance.matches[i].players)
+                {
+                    if(player.GetComponent<Player>().mapLoad == 1)
+                    {
+                        loadCount++;
+                    }
+                }
+            }
+        }
+        if(loadCount == maxCount) {
+            Debug.Log("Load new Game");
+            GameplayMaker.instance.LoadUnit(MatchID, connectionToClient);
+            Destroy(GameObject.Find("TurnManager(Clone)").gameObject);
+        }
+
     }
 
     public void Attack()

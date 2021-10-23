@@ -9,6 +9,13 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         SceneManager.LoadScene("Homestead", LoadSceneMode.Additive);
+
+        initGameplay();
+    }
+
+    public void initGameplay()
+    {
+        Player.localPlayer.mapLoaded();
     }
 
     public void AttackClick()

@@ -26,15 +26,15 @@
 		</data>
 		<key>Resources/Data/globalgamemanagers</key>
 		<data>
-		Imq0aaBYj2/pZ6L+Og4Ee0csjWE=
+		Gaf0IsJ6PyltqOwWcE9hJg5nmSk=
 		</data>
 		<key>Resources/Data/globalgamemanagers.assets</key>
 		<data>
-		0VLRHn/EIDlFfbIJyaK/SsWsKpQ=
+		t5oG9M0eDiPlZhtI7D7ozsrQoEI=
 		</data>
 		<key>Resources/Data/il2cpp_data/Metadata/global-metadata.dat</key>
 		<data>
-		hsl2kHtGUsbtkHJLa64dOq9R7/s=
+		Ry/pshSP/BCuPkWBIyeqgb9erCA=
 		</data>
 		<key>Resources/Data/il2cpp_data/Resources/mscorlib.dll-resources.dat</key>
 		<data>
@@ -114,27 +114,27 @@
 		</data>
 		<key>Resources/Data/level0</key>
 		<data>
-		djbXaLAwjFe7Dh+95d/rc5MQrww=
+		K6RYVtV/nPl0dEI578i+FR+KHd8=
 		</data>
 		<key>Resources/Data/level1</key>
 		<data>
-		b334fT0l47YbDLZ8LX2sQ1EKbd4=
+		5tJ3hVO6UdVL4eY9hmQwVzpMowI=
 		</data>
 		<key>Resources/Data/level2</key>
 		<data>
-		adGAPmOWBxoeC56hN1zJ18W1bxM=
+		m5N0UuRE+5WzRe7vZoDmfYtJUsk=
 		</data>
 		<key>Resources/Data/level3</key>
 		<data>
-		semgfvYHOmhxzfeigSu5MHR6Sic=
+		/AMfQEYvaKLyiHT005cdl1Aa6T0=
 		</data>
 		<key>Resources/Data/level4</key>
 		<data>
-		wRFLDIdcw0OyUtDtKXAD8qgHhZw=
+		yn519oxNL5zPjMrFSL6jhM+AoJ8=
 		</data>
 		<key>Resources/Data/resources.assets</key>
 		<data>
-		FW/YBQGpTCGZCQvi1jgxdhfu5r4=
+		YmWGyr7+GQsMWnnJz5TDypM0aNU=
 		</data>
 		<key>Resources/Data/resources.assets.resS</key>
 		<data>
@@ -142,23 +142,23 @@
 		</data>
 		<key>Resources/Data/sharedassets0.assets</key>
 		<data>
-		Yp0jEw7LOc0PLDTCOpejxNbN4T4=
+		U4/2h17mB09ZYxYhwIZ1M3et5ZQ=
 		</data>
 		<key>Resources/Data/sharedassets0.assets.resS</key>
 		<data>
-		Q6tBgYhZALBGFIOH5FOqrIQYjUQ=
+		3Z+dK6yAXrvTb6WmiwYlnKbAetQ=
 		</data>
 		<key>Resources/Data/sharedassets1.assets</key>
 		<data>
-		eIo5B7Zpl+mf0K7D6PAq/KsQR7Q=
+		HjwNW+vGNUxg+6u7TsGjY/g4//g=
 		</data>
 		<key>Resources/Data/sharedassets2.assets</key>
 		<data>
-		lSxfNSL7kBH8AD3a2FtDvrmgoiE=
+		T62QyMqk9wkiIfIQ3pFK/YcgeV0=
 		</data>
 		<key>Resources/Data/sharedassets3.assets</key>
 		<data>
-		frFkBzrIfJQYAL1GLHO+G/D6aaQ=
+		8e1JrG7uUfuAbMWpgv4gg7R4mek=
 		</data>
 		<key>Resources/Data/sharedassets3.assets.resS</key>
 		<data>
@@ -166,7 +166,7 @@
 		</data>
 		<key>Resources/Data/sharedassets4.assets</key>
 		<data>
-		H8voFvgTUzLZRmfXmPJqxiUHZ4M=
+		5Xo79ANPouzMao/QPs7Q4Z8EOlI=
 		</data>
 		<key>Resources/DefaultPreferences.plist</key>
 		<data>
@@ -191,10 +191,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			LdKWnNuB2RwDaJgLaNmUjs66b7Q=
+			EXNIPFd29xu0xpuhFLcLvMpu5K4=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"2dd2969cdb81d91c0368980b68d9948eceba6fb4" or cdhash H"b8be27fbc8d8a2e70f972e2ec4a1728f70bb95d7"</string>
+			<string>cdhash H"1173483c5776f71bb4c69ba114b70bbcca6ee4ae" or cdhash H"73637c586f772617409569332e09d86b13822b29"</string>
 		</dict>
 		<key>Frameworks/UnityPlayer.dylib</key>
 		<dict>
@@ -244,21 +244,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			n8r5fO78X5VdEA1w6/IiFrfngs6poGIW4bSHGY4mSdU=
+			2N6rOWQiv8FDDQrA1LO5G0ACO7Lj5SDQj5jku0R6W4o=
 			</data>
 		</dict>
 		<key>Resources/Data/globalgamemanagers.assets</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YiEec2o6+fldJ8uqjw0uiaJojJ6MjE0vH5B6TGJMqiw=
+			/koLsDWvejHtGX1OUZN1FQxy82OJpJr5SQ9dwHLN3h4=
 			</data>
 		</dict>
 		<key>Resources/Data/il2cpp_data/Metadata/global-metadata.dat</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			biriHIiY5TOnSGmMq+3A0wE8jOEixY3SGVV/emEkNwA=
+			OrdPS/VUJd3ahYn0pOxS5qFs5lU9V4/Nb6nnJ/OoAVo=
 			</data>
 		</dict>
 		<key>Resources/Data/il2cpp_data/Resources/mscorlib.dll-resources.dat</key>
@@ -398,42 +398,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LhgWFUo86mH9dkhxCCFP5+Whr83f4L8Ip/dsa5pD5Bo=
+			RsnNMGbYHuk9ys2dXHKJAp1bccdvLcbBWxEH4lon/5k=
 			</data>
 		</dict>
 		<key>Resources/Data/level1</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9xJa7pcgR/nIi65GGrSeUGPktcZP2kKlGRtoAw76DYc=
+			ArvtGSwODO0qPwrVfPCd6uOMV4J5Li44Y14IW4nqA9I=
 			</data>
 		</dict>
 		<key>Resources/Data/level2</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			O1d1uqZbZEkZo1HFgiKnpqofKP6gHKaQDFGC1YoFN4M=
+			RXMJXA+95hnT6x5PqVGo3wzhE9um/Vcc0oGtmEOW84Q=
 			</data>
 		</dict>
 		<key>Resources/Data/level3</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MGCjLD8e+MDmlE+bgEbomca9Nh77kR6It/U74zY1fH0=
+			bPcKVMFFULZUxRtQEKRDuuMMn+4HJ6qT+KPIFZxNMSo=
 			</data>
 		</dict>
 		<key>Resources/Data/level4</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			sDVmigxVnITaN1ErOGPr+XJ18Z0ygOTXTd+Ydo8q2NA=
+			1UokS+6C2WdXofnVZHo4PSakxtXmfggQ8ptjddMyC7M=
 			</data>
 		</dict>
 		<key>Resources/Data/resources.assets</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			s8l2rnFs1vX1kAUPYWgi76hjcSCKrPIPif3ijc0zYK8=
+			CEmtL3qsvjwyUdQbKYB+cmz/H3e0l8eIh/Lp43rh4Qk=
 			</data>
 		</dict>
 		<key>Resources/Data/resources.assets.resS</key>
@@ -447,35 +447,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			juhUSGRhvWIKMO5ISa+OiCWNJfMfSMWNXfGueGebNWI=
+			bdP66TiMDbx76L1issSwr3Lwyhba7UB2LFb2yHCns+o=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets0.assets.resS</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			29HrTfsMhXVEGXWTGjUdULnCNooKs/t4EWqvAQDdm/k=
+			q5F/2X7UhSnZiT4FW8uHGaitD2CQDjtUzDdo4+uvm/Q=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets1.assets</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8gp1X04qjnJdVpSLUFDJfQ1kfdSBAUykd/dVGMytJTE=
+			J4z/udoNA95E0G9baY5m8GBvC7JTKqoJxy2GtuipWdM=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets2.assets</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QQlnSeZ25R2Kijk9suR8maru6+hlPR1tY6/SJowh/H8=
+			dUj0GMAH8PHvZbPGcC6Tpr/w782vCj2CH5cecJPzRME=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets3.assets</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dZsWPxZ1GtEjitf9CAptQlLeVu7QTzZCpZEoaeKhSnI=
+			4f9zuxnkmB0rCi0hhdOuvw1tjcexOfV9XsQs5OqSAPY=
 			</data>
 		</dict>
 		<key>Resources/Data/sharedassets3.assets.resS</key>
@@ -489,7 +489,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			z3/wJwlNymA/z1XpKCbqD1LFuL9rOhk2LG1HSIljBZM=
+			lOT7kSLnFi2E5ttG3eljxWQT03z+6+zSHLl+Cnlj+Vg=
 			</data>
 		</dict>
 		<key>Resources/DefaultPreferences.plist</key>
