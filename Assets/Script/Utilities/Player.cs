@@ -5,6 +5,12 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum PlayerState
+{
+    walk,
+    attack
+}
+
 public class Player : NetworkBehaviour
 {
     [Header("Object setting")]
@@ -32,11 +38,13 @@ public class Player : NetworkBehaviour
     [SyncVar] public float InputJY;
     [SyncVar] public int playerType;
     [SyncVar] public int mapLoad;
+    [SyncVar] public PlayerState currentState;
 
     [Header("Player Settings")]
     public float speed;
     public Vector2 minPosition;
     public Vector2 maxPosition;
+    public bool mulaiAttack;
 
     // Pada saat mulai koneksi client
     public override void OnStartClient()
@@ -86,6 +94,10 @@ public class Player : NetworkBehaviour
     void Start()
     {
         Physics2D.IgnoreLayerCollision(6,6);
+        animator.SetFloat("moveX", 0);
+        animator.SetFloat("moveY", -1);
+        currentState = PlayerState.walk;
+        mulaiAttack = true;
     }
 
     void LateUpdate()
@@ -112,42 +124,50 @@ public class Player : NetworkBehaviour
         //dijalankan di server
         if (isServer)
         {
-            if (directionAttack == "attack")
+            if (directionAttack == "attack" && currentState != PlayerState.attack)
             {
-                animator.SetBool("attacking", true);
-                StartCoroutine(StopAttack());
+                if (mulaiAttack)
+                {
+                    mulaiAttack = false;
+                    currentState = PlayerState.attack;
+                    animator.SetBool("attacking", true);
+                    StartCoroutine(StopAttack());
+                }
             }
-            if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
+            if (currentState == PlayerState.walk)
             {
-                if (directionH == "left")
+                if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
                 {
-                    animator.SetFloat("moveX", InputJX);
-                    animator.SetBool("moving", true);
+                    if (directionH == "left")
+                    {
+                        animator.SetFloat("moveX", InputJX);
+                        animator.SetBool("moving", true);
+                    }
+                    if (directionH == "right")
+                    {
+                        animator.SetFloat("moveX", InputJX);
+                        animator.SetBool("moving", true);
+                    }
+                    if (directionV == "up")
+                    {
+                        animator.SetFloat("moveY", InputJY);
+                        animator.SetBool("moving", true);
+                    }
+                    if (directionV == "down")
+                    {
+                        animator.SetFloat("moveY", InputJY);
+                        animator.SetBool("moving", true);
+                    }
+                    Vector2 change = new Vector3(InputJX, InputJY);
+                    Vector2 smoothVelocity = new Vector2(0, 0);
+                    float smoothTime = 0f;
+                    Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * speed, ref smoothVelocity, smoothTime);
+                    GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
                 }
-                if (directionH == "right")
+                else
                 {
-                    animator.SetFloat("moveX", InputJX);
-                    animator.SetBool("moving", true);
+                    animator.SetBool("moving", false);
                 }
-                if (directionV == "up")
-                {
-                    animator.SetFloat("moveY", InputJY);
-                    animator.SetBool("moving", true);
-                }
-                if (directionV == "down")
-                {
-                    animator.SetFloat("moveY", InputJY);
-                    animator.SetBool("moving", true);
-                }
-                Vector2 change = new Vector3(InputJX,InputJY);
-                Vector2 smoothVelocity = new Vector2(0,0);
-                float smoothTime = 0f;
-                Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * speed, ref smoothVelocity, smoothTime);
-                GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) *Time.deltaTime);
-            }
-            else
-            {
-                animator.SetBool("moving", false);
             }
         }
         //Jika player tidak punya autoritas maka keluar
@@ -254,6 +274,8 @@ public class Player : NetworkBehaviour
 
         animator.SetBool("attacking", false);
         directionAttack = "nothing";
+        currentState = PlayerState.walk;
+        mulaiAttack = true;
     }
 
     [Command]
