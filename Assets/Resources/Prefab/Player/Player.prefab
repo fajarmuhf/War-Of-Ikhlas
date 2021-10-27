@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4705598830363943573}
   - component: {fileID: 6390215948597546685}
   - component: {fileID: 1995562935226183989}
+  - component: {fileID: 2315887002116932907}
   m_Layer: 6
   m_Name: downHitbox
   m_TagString: Untagged
@@ -60,10 +61,10 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0.019869879, y: 0.047238074}
       - {x: -0.14896184, y: 0.047635343}
-      - {x: -0.09661904, y: -0.19795917}
-      - {x: -0.016587548, y: -0.25675738}
-      - {x: 0.07973736, y: -0.27291387}
-      - {x: 0.14749789, y: -0.19529252}
+      - {x: -0.10360465, y: -0.25035125}
+      - {x: -0.021832, y: -0.33716533}
+      - {x: 0.088479854, y: -0.33058187}
+      - {x: 0.13876587, y: -0.24244541}
       - {x: 0.14521994, y: -0.16011828}
       - {x: 0.15260662, y: -0.027676955}
 --- !u!114 &6390215948597546685
@@ -99,6 +100,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2315887002116932907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069278708963533268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd97e047359eb40a3816ce7764cd64fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrust: 4
+  knockTime: 0.2
+  damage: 1
 --- !u!1 &5053980871744965489
 GameObject:
   m_ObjectHideFlags: 0

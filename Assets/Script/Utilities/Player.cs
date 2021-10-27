@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 
 public enum PlayerState
 {
+    idle,
     walk,
-    attack
+    attack,
+    stagger
 }
 
 public class Player : NetworkBehaviour
@@ -118,13 +120,29 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void Knock(Rigidbody2D myRigidbody, float knockTime)
+    {
+        StartCoroutine(KnockCo(myRigidbody, knockTime));
+    }
+
+
+    IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockTime)
+    {
+        if (myRigidbody != null)
+        {
+            yield return new WaitForSeconds(knockTime);
+            myRigidbody.velocity = Vector2.zero;
+            currentState = PlayerState.idle;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         //dijalankan di server
         if (isServer)
         {
-            if (directionAttack == "attack" && currentState != PlayerState.attack)
+            if (directionAttack == "attack" && currentState != PlayerState.attack && currentState != PlayerState.stagger)
             {
                 if (mulaiAttack)
                 {
@@ -134,7 +152,7 @@ public class Player : NetworkBehaviour
                     StartCoroutine(StopAttack());
                 }
             }
-            if (currentState == PlayerState.walk)
+            if (currentState == PlayerState.walk || currentState == PlayerState.idle)
             {
                 if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
                 {

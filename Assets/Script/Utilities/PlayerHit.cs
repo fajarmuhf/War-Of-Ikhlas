@@ -17,12 +17,12 @@ public class PlayerHit : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (transform.parent.GetComponent<Player>().isServer)
+        /*if (transform.parent.GetComponent<Player>().isServer)
         {
             if (collision.gameObject.CompareTag("enemy") && collision.GetComponent<Enemy>().MatchID == transform.parent.gameObject.GetComponent<Player>().MatchID)
             {
                 collision.gameObject.GetComponent<Enemy>().reduceHealth();
             }
-        }
+        }*/
     }
 }
