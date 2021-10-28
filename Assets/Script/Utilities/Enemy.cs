@@ -24,6 +24,11 @@ public class Enemy : NetworkBehaviour
     [SyncVar] public float attackRadius;
     [SyncVar] public Transform homePosition;
     [SyncVar] public PlayerState currentState;
+    [SyncVar] public GameObject pathObject;
+    [SyncVar] public Transform currentGoal;
+    [SyncVar] public int currentPoint;
+    [SyncVar] public float roundingDistance;
+
 
     // Start is called before the first frame update
     void Start()
@@ -104,7 +109,42 @@ public class Enemy : NetworkBehaviour
                         ChangeState(PlayerState.walk);
                     }
                 }
+                else if(Vector2.Distance(target, current) > chaseRadius)
+                {
+                    target = pathObject.transform.GetChild(currentPoint).position;
+                    current = new Vector2(transform.position.x + GetComponent<BoxCollider2D>().offset.x, transform.position.y + GetComponent<BoxCollider2D>().offset.y);
+
+                    if (Vector2.Distance(target, current) > roundingDistance)
+                    {
+                        Vector2 change = (target - current).normalized;
+                        Vector2 smoothVelocity = new Vector2(0, 0);
+                        float smoothTime = 0f;
+                        Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * moveSpeed, ref smoothVelocity, smoothTime);
+                        GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
+                        ChangeState(PlayerState.walk);
+
+                    }
+                    else
+                    {
+                        ChangeGoal();
+                    }
+                }
             }
+        }
+    }
+
+    public void ChangeGoal()
+    {
+        int children = pathObject.transform.childCount;
+        if (currentPoint == children - 1)
+        {
+            currentPoint = 0;
+            currentGoal = pathObject.transform.GetChild(0);
+        }
+        else
+        {
+            currentPoint++;
+            currentGoal = pathObject.transform.GetChild(currentPoint);
         }
     }
 

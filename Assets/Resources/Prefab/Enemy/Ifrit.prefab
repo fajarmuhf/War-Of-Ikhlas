@@ -144,6 +144,11 @@ MonoBehaviour:
   attackRadius: 1
   homePosition: {fileID: 0}
   currentState: 0
+  pathObject: {fileID: 7447151027549649195, guid: 184fc7bc2b01b4a168baeb8bf13806ef,
+    type: 3}
+  currentGoal: {fileID: 0}
+  currentPoint: 0
+  roundingDistance: 0.1
 --- !u!114 &-2982793012187736994
 MonoBehaviour:
   m_ObjectHideFlags: 0
