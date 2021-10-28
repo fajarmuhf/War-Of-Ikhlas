@@ -562,6 +562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   folderPath:
   - Prefab/Enemy
+  - Prefab/UI
 --- !u!1 &1087096428
 GameObject:
   m_ObjectHideFlags: 0

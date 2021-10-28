@@ -16,6 +16,7 @@ public class Enemy : NetworkBehaviour
     [SyncVar] public string MatchID;
     [SyncVar] public string nameEnemy;
     [SyncVar] public float health;
+    [SyncVar] public float maxHealth;
     [SyncVar] public float baseAttack;
     [SyncVar] public float moveSpeed;
     [SyncVar] public float attackSpeed;

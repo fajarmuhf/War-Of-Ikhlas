@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -366422310943867131}
   - component: {fileID: 1986092518753219895}
   - component: {fileID: 8138302105130355343}
+  - component: {fileID: 1412283755919837537}
   m_Layer: 0
   m_Name: Ifrit
   m_TagString: enemy
@@ -135,6 +136,7 @@ MonoBehaviour:
   MatchID: 
   nameEnemy: Ifrit
   health: 2
+  maxHealth: 2
   baseAttack: 1
   moveSpeed: 1.5
   attackSpeed: 1
@@ -278,3 +280,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 4
   knockTime: 0.2
+  damage: 0
+--- !u!114 &1412283755919837537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047688030469401540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8206e8a097c41e1848dc7539ffb845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tinggiPosisi: 0.45

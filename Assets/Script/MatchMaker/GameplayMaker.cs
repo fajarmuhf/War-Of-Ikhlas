@@ -16,9 +16,7 @@ public class GameplayMaker : NetworkBehaviour
     public void LoadUnit(string matchId,NetworkConnection conn)
     {
         GameObject enemyClone = Instantiate(Resources.Load("Prefab/Enemy/Ifrit") as GameObject);
-
-        Debug.Log("Spawn " + conn.connectionId);
-
+        
         enemyClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
         NetworkServer.Spawn(enemyClone,conn);
         enemyClone.transform.position = new Vector3(-0.2570385f, -8.70766f,0);
