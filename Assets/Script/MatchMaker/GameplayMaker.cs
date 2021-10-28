@@ -23,6 +23,15 @@ public class GameplayMaker : NetworkBehaviour
         enemyClone.GetComponent<Enemy>().setMatchId(matchId);
     }
 
+    public void DropItem(string matchId,NetworkConnection conn,Vector2 posisi)
+    {
+        GameObject itemClone = Instantiate(Resources.Load("Prefab/Item/Surah") as GameObject);
+
+        itemClone.transform.position = posisi;
+        itemClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        NetworkServer.Spawn(itemClone, conn);
+    }
+
     // Update is called once per frame
     void Update()
     {

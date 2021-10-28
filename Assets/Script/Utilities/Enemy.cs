@@ -162,8 +162,10 @@ public class Enemy : NetworkBehaviour
         health -= damage;
         if (health <= 0)
         {
+            GameplayMaker.instance.DropItem(MatchID,connectionToClient,transform.position);
             Destroy(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
+
         }
     }
 

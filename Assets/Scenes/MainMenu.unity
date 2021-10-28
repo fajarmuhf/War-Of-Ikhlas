@@ -563,6 +563,7 @@ MonoBehaviour:
   folderPath:
   - Prefab/Enemy
   - Prefab/UI
+  - Prefab/Item
 --- !u!1 &1087096428
 GameObject:
   m_ObjectHideFlags: 0
