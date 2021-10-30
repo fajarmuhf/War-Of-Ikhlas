@@ -41,6 +41,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public int playerType;
     [SyncVar] public int mapLoad;
     [SyncVar] public PlayerState currentState;
+    [SyncVar] public PlayerInventory playerInventory;
 
     [Header("Player Settings")]
     public float speed;
@@ -95,11 +96,15 @@ public class Player : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Physics2D.IgnoreLayerCollision(6,6);
+        Physics2D.IgnoreLayerCollision(6, 6);
         animator.SetFloat("moveX", 0);
         animator.SetFloat("moveY", -1);
         currentState = PlayerState.walk;
         mulaiAttack = true;
+        if (isServer)
+        {
+            playerInventory = new PlayerInventory();
+        }
     }
 
     void LateUpdate()

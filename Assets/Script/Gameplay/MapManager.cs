@@ -22,6 +22,12 @@ public class MapManager : MonoBehaviour
     {
         Player.localPlayer.Attack();
     }
+    
+    public void InventoryClick()
+    {
+        GameObject.Find("Canvas").transform.Find("Inventory Panel").gameObject.SetActive(!GameObject.Find("Canvas").transform.Find("Inventory Panel").gameObject.active);
+    }
+    
 
     // Update is called once per frame
     void Update()

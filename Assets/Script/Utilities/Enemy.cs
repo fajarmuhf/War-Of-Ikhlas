@@ -47,6 +47,7 @@ public class Enemy : NetworkBehaviour
         MatchID = matchId;
 
         ignoreDiffMatch();
+
     }
 
     public void ignoreDiffMatch()
@@ -74,6 +75,10 @@ public class Enemy : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("enemy"))
+        {
+            Physics2D.IgnoreCollision(collision.collider,GetComponent<Collider2D>());
+        }
         if (collision.gameObject.CompareTag("Player"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -82,6 +87,10 @@ public class Enemy : NetworkBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("enemy"))
+        {
+            Physics2D.IgnoreCollision(collision.collider,GetComponent<Collider2D>());
+        }
         if (collision.gameObject.CompareTag("Player"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -90,45 +99,85 @@ public class Enemy : NetworkBehaviour
 
     public void checkDistance() {
         GameObject[] pemainTag = GameObject.FindGameObjectsWithTag("Player");
+        int pemainDalamJangkauan = 0;
+        List<Vector2> targets = new List<Vector2>();
+        int pemainJangkauanSerang = 0;
+        int pemainLuarJangkauan = 0;
+        int jumPemain = 0;
 
         foreach (GameObject pemain in pemainTag)
         {
             if (pemain.GetComponent<Player>().MatchID == MatchID)
             {
+                jumPemain++;
                 Vector2 target = new Vector2(pemain.transform.position.x+pemain.GetComponent<BoxCollider2D>().offset.x, pemain.transform.position.y + pemain.GetComponent<BoxCollider2D>().offset.y);
                 Vector2 current = new Vector2(transform.position.x+GetComponent<BoxCollider2D>().offset.x,transform.position.y + GetComponent<BoxCollider2D>().offset.y);
                 if (Vector2.Distance(target,current) <= chaseRadius && Vector2.Distance(target, current) > attackRadius)
                 {
                     if (currentState == PlayerState.idle || currentState == PlayerState.walk && currentState != PlayerState.stagger)
                     {
-                        Vector2 change = (target - current).normalized;
-                        Vector2 smoothVelocity = new Vector2(0, 0);
-                        float smoothTime = 0f;
-                        Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * moveSpeed, ref smoothVelocity, smoothTime);
-                        GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
-                        ChangeState(PlayerState.walk);
+                        targets.Add(target);
+                        pemainDalamJangkauan++;
                     }
                 }
                 else if(Vector2.Distance(target, current) > chaseRadius)
                 {
-                    target = pathObject.transform.GetChild(currentPoint).position;
-                    current = new Vector2(transform.position.x + GetComponent<BoxCollider2D>().offset.x, transform.position.y + GetComponent<BoxCollider2D>().offset.y);
-
-                    if (Vector2.Distance(target, current) > roundingDistance)
+                    pemainLuarJangkauan++;
+                }
+            }
+        }
+        if (pemainDalamJangkauan > 0)
+        {
+            Vector2 minTarget = Vector2.zero;
+            Vector2 current = new Vector2(transform.position.x+GetComponent<BoxCollider2D>().offset.x,transform.position.y + GetComponent<BoxCollider2D>().offset.y);
+            for (int i=0;i<targets.Count;i++)
+            {
+                if (i == 0)
+                {
+                    minTarget = targets[0];
+                }
+                else
+                {
+                    if (Vector2.Distance(current, targets[i]) < Vector2.Distance(current,minTarget))
                     {
-                        Vector2 change = (target - current).normalized;
-                        Vector2 smoothVelocity = new Vector2(0, 0);
-                        float smoothTime = 0f;
-                        Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * moveSpeed, ref smoothVelocity, smoothTime);
-                        GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
-                        ChangeState(PlayerState.walk);
-
-                    }
-                    else
-                    {
-                        ChangeGoal();
+                        minTarget = targets[i];
                     }
                 }
+            }
+            
+            Vector2 target = minTarget;
+            
+            Vector2 change = (target - current).normalized;
+            Vector2 smoothVelocity = new Vector2(0, 0);
+            float smoothTime = 0f;
+            Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position,
+                change * moveSpeed, ref smoothVelocity, smoothTime);
+            GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position +
+                                                     new Vector2(
+                                                         transform.TransformDirection(moveAmount).x,
+                                                         transform.TransformDirection(moveAmount).y) *
+                                                     Time.deltaTime);
+            ChangeState(PlayerState.walk);
+        }
+
+        if (pemainLuarJangkauan == jumPemain)
+        {
+            Vector2 target = pathObject.transform.GetChild(currentPoint).position;
+            Vector2 current = new Vector2(transform.position.x + GetComponent<BoxCollider2D>().offset.x, transform.position.y + GetComponent<BoxCollider2D>().offset.y);
+
+            if (Vector2.Distance(target, current) > roundingDistance)
+            {
+                Vector2 change = (target - current).normalized;
+                Vector2 smoothVelocity = new Vector2(0, 0);
+                float smoothTime = 0f;
+                Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * moveSpeed, ref smoothVelocity, smoothTime);
+                GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
+                ChangeState(PlayerState.walk);
+
+            }
+            else
+            {
+                ChangeGoal();
             }
         }
     }

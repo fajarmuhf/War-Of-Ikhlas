@@ -21,6 +21,23 @@ public class Knockback : MonoBehaviour
         
     }
 
+    private void OnCollisionEnter2D(Collision2D other){
+        try
+        {
+            if (transform.parent.name.Contains("Player"))
+            {
+                if (transform.parent.GetComponent<Player>().isServer)
+                {
+                    KnockNow(other.collider);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            KnockNow(other.collider);
+        }
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         try
@@ -49,7 +66,7 @@ public class Knockback : MonoBehaviour
                 Vector2 difference = hit.transform.position - transform.position;
                 difference = difference.normalized * thrust;
                 hit.AddForce(difference, ForceMode2D.Impulse);
-                if (collision.CompareTag("enemy") && collision.isTrigger )
+                if (collision.CompareTag("enemy") )
                 {
                     hit.GetComponent<Enemy>().currentState = PlayerState.stagger;
                     collision.GetComponent<Enemy>().Knock(hit, knockTime,damage);
