@@ -9,6 +9,7 @@ public enum PlayerState
 {
     idle,
     walk,
+    interact,
     attack,
     stagger
 }
@@ -124,6 +125,37 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
+    public void Interact()
+    {
+        CmdInteract();
+    }
+
+    [Command]
+    public void CmdInteract()
+    {
+        currentState = PlayerState.interact;
+        chatWithNPC();
+    }
+
+    [TargetRpc]
+    public void chatWithNPC()
+    {
+        GameObject.Find("Canvas").transform.Find("Dialog Panel").gameObject.SetActive(true);
+    }
+    
+    public void doneChat()
+    {
+        CmdDoneChat();
+    }
+
+    [Command]
+    public void CmdDoneChat()
+    {
+        currentState = PlayerState.idle;
+    }
+    
+
 
     public void Knock(Rigidbody2D myRigidbody, float knockTime)
     {

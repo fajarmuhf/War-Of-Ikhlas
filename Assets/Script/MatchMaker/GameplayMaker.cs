@@ -21,6 +21,11 @@ public class GameplayMaker : NetworkBehaviour
         enemyClone.transform.position = new Vector3(-0.2570385f, -8.70766f,0);
         NetworkServer.Spawn(enemyClone,conn);
         enemyClone.GetComponent<Enemy>().setMatchId(matchId);
+        
+        //NPC
+        GameObject npcClone = Instantiate(Resources.Load("Prefab/NPC/NPC_KakekTua") as GameObject);
+        npcClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        NetworkServer.Spawn(npcClone,conn);
     }
 
     public void DropItem(string matchId,NetworkConnection conn,Vector2 posisi)
