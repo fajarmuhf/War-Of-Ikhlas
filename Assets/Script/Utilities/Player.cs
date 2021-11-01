@@ -43,6 +43,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public int mapLoad;
     [SyncVar] public PlayerState currentState;
     [SyncVar] public PlayerInventory playerInventory;
+    [SyncVar] public GameObject npcInteract;
 
     [Header("Player Settings")]
     public float speed;
@@ -102,6 +103,7 @@ public class Player : NetworkBehaviour
         animator.SetFloat("moveY", -1);
         currentState = PlayerState.walk;
         mulaiAttack = true;
+        npcInteract = null;
         if (isServer)
         {
             playerInventory = new PlayerInventory();
@@ -134,8 +136,11 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdInteract()
     {
-        currentState = PlayerState.interact;
-        chatWithNPC();
+        if (npcInteract != null)
+        {
+            currentState = PlayerState.interact;
+            chatWithNPC();
+        }
     }
 
     [TargetRpc]
