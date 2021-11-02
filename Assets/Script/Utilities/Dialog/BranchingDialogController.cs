@@ -9,7 +9,7 @@ public class BranchingDialogController : MonoBehaviour
 {
     [SerializeField] private GameObject dialogPrefab;
     [SerializeField] private GameObject choicePrefab;
-    [SerializeField] private TextAssetValue dialogValue;
+    [SerializeField] public TextAssetValue dialogValue;
     [SerializeField] private Story myStory;
     [SerializeField] private GameObject dialogHolder;
     [SerializeField] private GameObject choiceHolder;
@@ -32,9 +32,15 @@ public class BranchingDialogController : MonoBehaviour
         {
             Debug.Log("Something wrong with dialog asset");
         }
-        /* Set Varible Name
-        myStory.variablesState["name"] = "Andi";
-        */
+        /* Set Varible Name */
+        myStory.BindExternalFunction("takeQuestNow", (string name) => {
+            //_audioController.Play(name);
+            Debug.Log("Quest berhasil diambil level "+name);
+        });
+        myStory.BindExternalFunction("giveRewardQuest", (string name) => {
+            //_audioController.Play(name);
+            Debug.Log("Quest berhasil diselesaikan level " + name);
+        });
 
     }
 

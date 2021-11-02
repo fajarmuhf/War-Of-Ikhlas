@@ -42,11 +42,9 @@ public class Item : NetworkBehaviour
                     found++;
                 }
             }
-            Debug.Log("f "+found);
-            Debug.Log("c "+other.GetComponent<Player>().playerInventory.myInventory.Count);
             if (found == other.GetComponent<Player>().playerInventory.myInventory.Count)
             {
-                InventoryItem itemBaru = new InventoryItem();
+                InventoryItem itemBaru = ScriptableObject.CreateInstance<InventoryItem>();
                 itemBaru.itemId = thisItem.itemId;
                 itemBaru.itemName = thisItem.itemName;
                 itemBaru.itemDescription = thisItem.itemDescription;

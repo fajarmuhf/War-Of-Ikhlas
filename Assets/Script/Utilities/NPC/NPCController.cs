@@ -6,6 +6,7 @@ using UnityEngine;
 public class NPCController : NetworkBehaviour
 {
     [SyncVar] public int npcId;
+    [SyncVar] public TextAssetValue dialogNpc;
     // Start is called before the first frame update
     void Start()
     {

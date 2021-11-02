@@ -39,7 +39,10 @@ public class ResourceManager : MonoBehaviour
                     {
                         for (int n = 0; n < tmp.Count; n++)
                         {
-                            gameObject.GetComponent<NetworkManager>().spawnPrefabs.Add(tmp[n]);
+                            if (tmp[n].GetComponent<NetworkIdentity>() != null)
+                            {
+                                gameObject.GetComponent<NetworkManager>().spawnPrefabs.Add(tmp[n]);
+                            }
                             c++;
                         }
                     }

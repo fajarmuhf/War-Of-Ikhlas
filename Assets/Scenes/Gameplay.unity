@@ -1866,7 +1866,7 @@ MonoBehaviour:
     type: 3}
   choicePrefab: {fileID: 2901678981699178760, guid: 57a0bf1505bb5476dbd8fde39d28c410,
     type: 3}
-  dialogValue: {fileID: 11400000, guid: 4eb1fa510ce3349afa1d3d1ff2ee58cf, type: 2}
+  dialogValue: {fileID: 0}
   dialogHolder: {fileID: 1352120837}
   choiceHolder: {fileID: 2040397659}
   dialogScroll: {fileID: 226204348}

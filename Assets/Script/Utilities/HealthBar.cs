@@ -21,7 +21,7 @@ public class HealthBar : MonoBehaviour
             ScreenHeightHalf = healthClone.GetComponent<CanvasScaler>().referenceResolution.y / 2;
             CameraHeightHalf = GameObject.Find("Main Camera").GetComponent<Camera>().orthographicSize;
             CameraWidthHalf = CameraHeightHalf * ScreenWidthHalf / ScreenHeightHalf;
-            healthClone.transform.parent = this.transform;
+            healthClone.transform.SetParent(this.transform);
         }
     }
 

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4888bfc04f54c65a43f8cde5d2a49f, type: 3}
   m_Name: kakektua
   m_EditorClassIdentifier: 
-  value: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
+  value: {fileID: 4900000, guid: 2cbf693f9f9e84e9f98b0981ccc32012, type: 3}

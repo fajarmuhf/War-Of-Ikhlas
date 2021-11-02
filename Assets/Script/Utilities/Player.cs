@@ -106,7 +106,7 @@ public class Player : NetworkBehaviour
         npcInteract = null;
         if (isServer)
         {
-            playerInventory = new PlayerInventory();
+            playerInventory = ScriptableObject.CreateInstance<PlayerInventory>();
         }
     }
 
@@ -139,13 +139,17 @@ public class Player : NetworkBehaviour
         if (npcInteract != null)
         {
             currentState = PlayerState.interact;
-            chatWithNPC();
+            chatWithNPC(npcInteract.GetComponent<NPCController>().dialogNpc.value.text);
         }
     }
 
     [TargetRpc]
-    public void chatWithNPC()
+    public void chatWithNPC(string dialogNpc)
     {
+        TextAssetValue newText = ScriptableObject.CreateInstance<TextAssetValue>();
+        TextAsset newTextAsset = new TextAsset(dialogNpc);
+        newText.value = newTextAsset;
+        GameObject.Find("Canvas").transform.Find("Dialog Panel").GetComponent<BranchingDialogController>().dialogValue = newText;
         GameObject.Find("Canvas").transform.Find("Dialog Panel").gameObject.SetActive(true);
     }
     

@@ -228,6 +228,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   npcId: 1
+  dialogNpc: {fileID: 11400000, guid: 4eb1fa510ce3349afa1d3d1ff2ee58cf, type: 2}
 --- !u!1 &6877625161276522398
 GameObject:
   m_ObjectHideFlags: 0
