@@ -14,6 +14,8 @@ public class BranchingDialogController : MonoBehaviour
     [SerializeField] private GameObject dialogHolder;
     [SerializeField] private GameObject choiceHolder;
     [SerializeField] private ScrollRect dialogScroll;
+    [SerializeField] public GameObject npcInteract;
+    [SerializeField] public GameObject playerInteract;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -32,16 +34,36 @@ public class BranchingDialogController : MonoBehaviour
         {
             Debug.Log("Something wrong with dialog asset");
         }
+        myStory.variablesState["introQuest"] = npcInteract.GetComponent<NPCController>().introQuest;
         /* Set Varible Name */
-        myStory.BindExternalFunction("takeQuestNow", (string name) => {
+        myStory.BindExternalFunction("takeQuestNow", (string nama, string reward) => {
             //_audioController.Play(name);
-            Debug.Log("Quest berhasil diambil level "+name);
+            playerInteract.GetComponent<Player>().takeQuest(Int32.Parse(nama));
         });
-        myStory.BindExternalFunction("giveRewardQuest", (string name) => {
+        myStory.BindExternalFunction("giveRewardQuest", (string name, string reward) => {
             //_audioController.Play(name);
             Debug.Log("Quest berhasil diselesaikan level " + name);
         });
 
+        int jumlahOwnerQuest = 0;
+        if(playerInteract.GetComponent<Player>().playerQuest.myQuest.Count > 0)
+        {
+            for(int i = 0; i < playerInteract.GetComponent<Player>().playerQuest.myQuest.Count; i++)
+            {
+                if(playerInteract.GetComponent<Player>().playerQuest.myQuest[i].ownerQuest == npcInteract)
+                {
+                    jumlahOwnerQuest++;
+                }
+            }
+        }
+        if(jumlahOwnerQuest > 0)
+        {
+            myStory.variablesState["takeQuest"] = 1;
+        }
+        else
+        {
+            myStory.variablesState["takeQuest"] = 0;
+        }
     }
 
     public void RefreshView()
@@ -90,6 +112,7 @@ public class BranchingDialogController : MonoBehaviour
 
     public void MakeNewResponse(string newDialog, int choiceValue)
     {
+        npcInteract.GetComponent<NPCController>().introQuest = 0;
         ResponeObject newResponeObject =
             Instantiate(choicePrefab, choiceHolder.transform).GetComponent<ResponeObject>();
         newResponeObject.Setup(newDialog, choiceValue);

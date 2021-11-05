@@ -3,15 +3,15 @@ VAR myName = "Kakek Ikhlas"
 VAR QuestLevel = 1
 VAR KillIfrit = 5
 VAR KillIfritProgress = 0
-VAR takeQuest = 0
-VAR introQuest = 1
+VAR takeQuest = 1
+VAR introQuest = 0
 VAR rewardItem = ()
 VAR jumlahRewardItem = 0
 
-EXTERNAL takeQuestNow(level)
+EXTERNAL takeQuestNow(level,reward)
 EXTERNAL giveRewardQuest(level)
 
-LIST ItemsRewardList = 1_shampoo, 2_sabun, 3_apple, 1_sikatGigi
+LIST ItemsRewardList = 1_1_1_bismi, 1_1_2_allah
 
 { introQuest:
 - 0: -> NoIntruduction
@@ -34,19 +34,28 @@ Hello {name}, Welcome to Islamic Island.My name is {myName}. -> NoIntruduction
 
 === DoneQuest ===
 { QuestLevel:
-- 1 : -> RewardLevel1
-- 2 : -> RewardLevel2
+- 1 : -> RLevel1
+- 2 : -> RLevel2
 }
-->END
-
+-> END
+=== RLevel1 ===
+~ rewardItem = (1_1_1_bismi)
+{ takeQuest:
+- 1: ->RewardLevel1
+- else: ->FinishQuest
+}
 === RewardLevel1 ===
-~ rewardItem = (1_shampoo,2_sabun,1_sikatGigi)
 ~ jumlahRewardItem = LIST_COUNT(rewardItem)
 ~ giveRewardQuest(QuestLevel)
 ->ContinueDoneQuest
 
+=== RLevel2 ===
+~ rewardItem = (1_1_2_allah)
+{ takeQuest:
+- 1: ->RewardLevel1
+- else: ->FinishQuest
+}
 === RewardLevel2 ===
-~ rewardItem = (2_sabun)
 ~ jumlahRewardItem = LIST_COUNT(rewardItem)
 ~ giveRewardQuest(QuestLevel)
 ->ContinueDoneQuest
@@ -76,7 +85,7 @@ Conratulation you have finished job,this is reward for you.
 === NotYetQuest ===
 you haven't finished the quest.Please finish quest
     * Ok,see you letter -> END
-file:///Applications/Inky.app/Contents/Resources/app.asar/renderer/index.html#
+
 === LoadQuest ===
 Will you take some job to help this Island ?. 
 
@@ -93,22 +102,20 @@ Will you take some job to help this Island ?.
 === Quest1 ===
 ~ KillIfrit = 5
 Can you kill {KillIfrit} ifrit and tell to us if you done ?.
-* Yes, i can
- ~ takeQuestNow(QuestLevel)
--> END
-* No, may be latter
--> END
+* Yes, i can -> DoneQuest 
+* No, may be latter -> END
 
 === Quest2 ===
 ~ KillIfrit = 10
 Can you kill {KillIfrit} ifrit and tell to us if you done ?.
-* Yes, i can
- ~ takeQuestNow(QuestLevel)
--> END
-* No, may be latter
+* Yes, i can -> DoneQuest 
+* No, may be latter -> END
+
+=== FinishQuest ===
+~ takeQuestNow(QuestLevel,rewardItem)
 -> END
 
-=== function takeQuestNow(level) ===
+=== function takeQuestNow(level,reward) ===
 // Usually external functions can only return placeholder
 // results, otherwise they'd be defined in ink!
 ~ return 1

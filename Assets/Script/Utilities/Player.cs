@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ink.Runtime;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -44,6 +45,7 @@ public class Player : NetworkBehaviour
     [SyncVar] public PlayerState currentState;
     [SyncVar] public PlayerInventory playerInventory;
     [SyncVar] public GameObject npcInteract;
+    [SyncVar] public PlayerQuest playerQuest;
 
     [Header("Player Settings")]
     public float speed;
@@ -107,6 +109,7 @@ public class Player : NetworkBehaviour
         if (isServer)
         {
             playerInventory = ScriptableObject.CreateInstance<PlayerInventory>();
+            playerQuest = ScriptableObject.CreateInstance<PlayerQuest>();
         }
     }
 
@@ -127,6 +130,98 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
+    public void takeQuest(int levelQuest) {
+        CmdTakeQuest(npcInteract.GetComponent<NPCController>().npcId,levelQuest);
+    }
+
+    [Command]
+    public void CmdTakeQuest(int npcId,int levelQuest)
+    {
+        if (npcId == npcInteract.GetComponent<NPCController>().npcId)
+        {
+
+            //Bikin Story baru
+            Story storyAku = new Story(npcInteract.GetComponent<NPCController>().dialogNpc.value.text);
+            storyAku.variablesState["introQuest"] = npcInteract.GetComponent<NPCController>().introQuest;
+
+            storyAku.BindExternalFunction("takeQuestNow", (string nama,string reward) => {
+                //_audioController.Play(name);
+                string[] subs = reward.Split(',');
+                Quest newQuest = ScriptableObject.CreateInstance<Quest>();
+                newQuest.idQuest = npcId;
+                newQuest.ownerQuest = npcInteract;
+                newQuest.levelQuest = levelQuest;
+                newQuest.takeQuest = 1;
+                newQuest.rewardItem = new List<InventoryItem>();
+                foreach (var sub in subs)
+                {
+                    InventoryItem itemBaru = ScriptableObject.CreateInstance<InventoryItem>();
+                    var subs2 = sub.Split('_');
+                    InventoryItem thisItem = Resources.Load<InventoryItem>("ScriptableObjects/Item/Surah " + subs2[0] + "/Ayat " + subs2[1] + "/" + subs2[2] + "_" + subs2[3]);
+                    itemBaru.itemId = thisItem.itemId;
+                    itemBaru.itemName = thisItem.itemName;
+                    itemBaru.itemDescription = thisItem.itemDescription;
+                    itemBaru.itemImage = thisItem.itemImage;
+                    itemBaru.itemImageIndex = thisItem.itemImageIndex;
+                    itemBaru.numberHeld = thisItem.numberHeld;
+                    itemBaru.usable = thisItem.usable;
+                    itemBaru.usable = thisItem.unique;
+                    itemBaru.thisEvent = thisItem.thisEvent;
+                    newQuest.rewardItem.Add(itemBaru);
+                    
+                }
+
+                playerQuest.myQuest.Add(newQuest);
+                PlayerQuest temp = playerQuest;
+                playerQuest = null;
+                playerQuest = temp;
+                Debug.Log("Quest berhasil diambil level " + name);
+            });
+            storyAku.BindExternalFunction("giveRewardQuest", (string name, string reward) => {
+
+            });
+
+            int jumlahOwnerQuest = 0;
+            if (playerQuest.myQuest.Count > 0)
+            {
+                for (int i = 0; i < playerQuest.myQuest.Count; i++)
+                {
+                    if (playerQuest.myQuest[i].ownerQuest == npcInteract)
+                    {
+                        jumlahOwnerQuest++;
+                    }
+                }
+            }
+            if (jumlahOwnerQuest > 0)
+            {
+                storyAku.variablesState["takeQuest"] = 1;
+            }
+            else
+            {
+                storyAku.variablesState["takeQuest"] = 0;
+            }
+
+            while (storyAku.canContinue)
+            {
+                storyAku.Continue();
+            }
+            storyAku.ChooseChoiceIndex(0);
+
+            while (storyAku.canContinue)
+            {
+                storyAku.Continue();
+            }
+            storyAku.ChooseChoiceIndex(0);
+
+            while (storyAku.canContinue)
+            {
+                storyAku.Continue();
+            }
+
+        }
+    }
+
 
     public void Interact()
     {
@@ -149,6 +244,8 @@ public class Player : NetworkBehaviour
         TextAssetValue newText = ScriptableObject.CreateInstance<TextAssetValue>();
         TextAsset newTextAsset = new TextAsset(dialogNpc);
         newText.value = newTextAsset;
+        GameObject.Find("Canvas").transform.Find("Dialog Panel").GetComponent<BranchingDialogController>().npcInteract = npcInteract;
+        GameObject.Find("Canvas").transform.Find("Dialog Panel").GetComponent<BranchingDialogController>().playerInteract = gameObject;
         GameObject.Find("Canvas").transform.Find("Dialog Panel").GetComponent<BranchingDialogController>().dialogValue = newText;
         GameObject.Find("Canvas").transform.Find("Dialog Panel").gameObject.SetActive(true);
     }
