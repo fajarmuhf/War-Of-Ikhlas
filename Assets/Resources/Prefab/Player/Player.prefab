@@ -127,13 +127,13 @@ GameObject:
   - component: {fileID: 4989083871144223565}
   - component: {fileID: 5654477491010636725}
   - component: {fileID: 8904492355156324625}
-  - component: {fileID: 1444302555438905624}
   - component: {fileID: 5953203231169134477}
   - component: {fileID: 421467008423646958}
   - component: {fileID: 7294656827590025400}
   - component: {fileID: 4747084873059977111}
   - component: {fileID: 5253353993518338581}
   - component: {fileID: 4596416158058597570}
+  - component: {fileID: 5658131798990879828}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -221,9 +221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 2279216462
   serverOnly: 0
   visible: 0
-  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &8904492355156324625
 MonoBehaviour:
@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237cdb4a803bb46698c6dc96935db61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MainCamera: {fileID: 0}
@@ -258,25 +259,13 @@ MonoBehaviour:
   playerType: 0
   mapLoad: 0
   currentState: 0
+  playerInventory: {fileID: 0}
+  npcInteract: {fileID: 0}
+  playerQuest: {fileID: 0}
   speed: 4
   minPosition: {x: 0, y: -10}
   maxPosition: {x: 2, y: 0}
   mulaiAttack: 0
---- !u!114 &1444302555438905624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5053980871744965489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1020a74962faada4b807ac5dc053a4cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  currentMatchDebug: 
 --- !u!114 &5953203231169134477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,15 +278,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 4799319194259025787}
   clientAuthority: 0
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
-  compressRotation: 0
-  interpolateScale: 1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
   syncScale: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!50 &421467008423646958
 Rigidbody2D:
   serializedVersion: 4
@@ -331,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   target: {fileID: 421467008423646958}
@@ -372,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
@@ -402,3 +400,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2352199, y: 0.14116399}
   m_EdgeRadius: 0
+--- !u!114 &5658131798990879828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5053980871744965489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1

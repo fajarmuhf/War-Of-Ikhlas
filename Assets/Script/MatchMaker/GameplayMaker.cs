@@ -17,14 +17,14 @@ public class GameplayMaker : NetworkBehaviour
     {
         GameObject enemyClone = Instantiate(Resources.Load("Prefab/Enemy/Ifrit") as GameObject,new Vector3(-0.2570385f, -8.70766f,0),Quaternion.identity);
         
-        enemyClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        enemyClone.GetComponent<NetworkMatch>().matchId = matchId.ToGuid();
         enemyClone.transform.position = new Vector3(-0.2570385f, -8.70766f,0);
         NetworkServer.Spawn(enemyClone,conn);
         enemyClone.GetComponent<Enemy>().setMatchId(matchId);
         
         //NPC
         GameObject npcClone = Instantiate(Resources.Load("Prefab/NPC/NPC_KakekTua") as GameObject);
-        npcClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        npcClone.GetComponent<NetworkMatch>().matchId = matchId.ToGuid();
         NetworkServer.Spawn(npcClone,conn);
     }
 
@@ -33,7 +33,7 @@ public class GameplayMaker : NetworkBehaviour
         GameObject itemClone = Instantiate(Resources.Load("Prefab/Item/Ayat") as GameObject);
 
         itemClone.transform.position = posisi;
-        itemClone.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        itemClone.GetComponent<NetworkMatch>().matchId = matchId.ToGuid();
         NetworkServer.Spawn(itemClone, conn);
     }
 

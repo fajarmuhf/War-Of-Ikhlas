@@ -23,7 +23,7 @@ public class Player : NetworkBehaviour
 
     [Header("GameObject setting")]
     public Camera MainCamera;
-    public NetworkMatchChecker networkMatchChecker;
+    public NetworkMatch networkMatchChecker;
     public GameObject pivot;
     public GameObject playerLobbyUI;
     public FixedJoystick joystick;
@@ -388,14 +388,18 @@ public class Player : NetworkBehaviour
         
         int loadCount = 0;
         int maxCount = 0;
-        for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        if(true)
+        //for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
         {
-            if (MatchMaker.instance.matches[i].matchId == MatchID)
+            if(true)
+            //if (MatchMaker.instance.matches[i].matchId == MatchID)
             {
-                maxCount = MatchMaker.instance.matches[i].players.Count;
-                foreach (var player in MatchMaker.instance.matches[i].players)
+                //maxCount = MatchMaker.instance.matches[i].players.Count;
+                if(true)
+                //foreach (var player in MatchMaker.instance.matches[i].players)
                 {
-                    if(player.GetComponent<Player>().mapLoad == 1)
+                    if(true)
+                    //if(player.GetComponent<Player>().mapLoad == 1)
                     {
                         loadCount++;
                     }
@@ -489,7 +493,7 @@ public class Player : NetworkBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-        networkMatchChecker = GetComponent<NetworkMatchChecker>();
+        networkMatchChecker = GetComponent<NetworkMatch>();
     }
 
     /*
@@ -609,7 +613,7 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
-        for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        /*for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
         {
             if (MatchMaker.instance.matches[i].matchId == MatchID)
             {
@@ -622,7 +626,7 @@ public class Player : NetworkBehaviour
                     }
                 }
             }
-        }
+        }*/
 
         MatchMaker.instance.BeginGame(MatchID);
         Debug.Log("Game Begin" + MatchID);
