@@ -34,6 +34,7 @@ public class BranchingDialogController : MonoBehaviour
         {
             Debug.Log("Something wrong with dialog asset");
         }
+        myStory.variablesState["name"] = "Fajar";
         myStory.variablesState["introQuest"] = npcInteract.GetComponent<NPCController>().introQuest;
         /* Set Varible Name */
         myStory.BindExternalFunction("takeQuestNow", (string nama, string reward) => {

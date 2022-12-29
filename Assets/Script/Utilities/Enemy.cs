@@ -65,7 +65,7 @@ public class Enemy : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isServer)
         {
@@ -156,7 +156,7 @@ public class Enemy : NetworkBehaviour
                                                      new Vector2(
                                                          transform.TransformDirection(moveAmount).x,
                                                          transform.TransformDirection(moveAmount).y) *
-                                                     Time.deltaTime);
+                                                     Time.fixedDeltaTime);
             ChangeState(PlayerState.walk);
         }
 
@@ -171,7 +171,7 @@ public class Enemy : NetworkBehaviour
                 Vector2 smoothVelocity = new Vector2(0, 0);
                 float smoothTime = 0f;
                 Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * moveSpeed, ref smoothVelocity, smoothTime);
-                GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
+                GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.fixedDeltaTime);
                 ChangeState(PlayerState.walk);
 
             }

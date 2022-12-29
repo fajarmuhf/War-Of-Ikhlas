@@ -51,7 +51,7 @@ TextureImporter:
       213: -7120590752737129785
     second: kavi_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -72,6 +72,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -110,6 +111,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -185,6 +187,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -544,6 +558,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      kavi_12: -5144695657164439596
+      kavi_1: 7618371325414412434
+      kavi_5: 1589146201237296052
+      kavi_11: 3290036684954775909
+      kavi_2: 2378269145155931140
+      kavi_9: -8391877531234177617
+      kavi_14: -1834652612360860036
+      kavi_7: 1567779071738917720
+      kavi_8: 2450186317159105719
+      kavi_4: 1640139232191513244
+      kavi_6: 6968568203013095612
+      kavi_0: -2964324152728233413
+      kavi_10: 8491173963103241723
+      kavi_13: 2315845870734968603
+      kavi_15: -7120590752737129785
+      kavi_3: 6967611590426993399
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

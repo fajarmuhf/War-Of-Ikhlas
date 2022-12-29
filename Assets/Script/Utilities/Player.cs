@@ -280,7 +280,7 @@ public class Player : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //dijalankan di server
         if (isServer)
@@ -319,11 +319,16 @@ public class Player : NetworkBehaviour
                         animator.SetFloat("moveY", InputJY);
                         animator.SetBool("moving", true);
                     }
-                    Vector2 change = new Vector3(InputJX, InputJY);
+                    float x = 1 / Vector2.Distance(new Vector2(0,0),new Vector2(InputJX,InputJY));
+                    float InputHX = InputJX * x;
+                    float InputHY = InputJY * x;
+
+                    Vector2 change = new Vector3(InputHX, InputHY);
                     Vector2 smoothVelocity = new Vector2(0, 0);
                     float smoothTime = 0f;
                     Vector2 moveAmount = Vector2.SmoothDamp(GetComponent<Rigidbody2D>().position, change * speed, ref smoothVelocity, smoothTime);
-                    GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + new Vector2(transform.TransformDirection(moveAmount).x, transform.TransformDirection(moveAmount).y) * Time.deltaTime);
+                    GetComponent<Rigidbody2D>().MovePosition(GetComponent<Rigidbody2D>().position + change*speed * Time.fixedDeltaTime);
+
                 }
                 else
                 {
@@ -388,18 +393,18 @@ public class Player : NetworkBehaviour
         
         int loadCount = 0;
         int maxCount = 0;
-        if(true)
-        //for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        //if(true)
+        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
         {
-            if(true)
-            //if (MatchMaker.instance.matches[i].matchId == MatchID)
+            //if(true)
+            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
             {
-                //maxCount = MatchMaker.instance.matches[i].players.Count;
-                if(true)
-                //foreach (var player in MatchMaker.instance.matches[i].players)
+                maxCount = MatchMaker.instance.matchku.matches[i].players.Count;
+                //if(true)
+                foreach (var player in MatchMaker.instance.matchku.matches[i].players)
                 {
-                    if(true)
-                    //if(player.GetComponent<Player>().mapLoad == 1)
+                    //if(true)
+                    if(player.GetComponent<Player>().mapLoad == 1)
                     {
                         loadCount++;
                     }
@@ -613,20 +618,20 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
-        /*for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
         {
-            if (MatchMaker.instance.matches[i].matchId == MatchID)
+            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
             {
-                for (int j = 0; j < MatchMaker.instance.matches[i].players.Count; j++)
+                for (int j = 0; j < MatchMaker.instance.matchku.matches[i].players.Count; j++)
                 {
-                    if (MatchMaker.instance.matches[i].players[j].GetComponent<Player>().playerType == -1)
+                    if (MatchMaker.instance.matchku.matches[i].players[j].GetComponent<Player>().playerType == -1)
                     {
                         Debug.Log("Please choice player");
                         return;
                     }
                 }
             }
-        }*/
+        }
 
         MatchMaker.instance.BeginGame(MatchID);
         Debug.Log("Game Begin" + MatchID);
@@ -657,20 +662,20 @@ public class Player : NetworkBehaviour
     public void CmdChoice(int _typePlayer)
     {
         //Jika player sudah dipilih maka fungsi selesai
-        /*for (int i = 0; i < MatchMaker.instance.matches.Count; i++)
+        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
         {
-            if (MatchMaker.instance.matches[i].matchId == MatchID)
+            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
             {
-                for (int j = 0; j < MatchMaker.instance.matches[i].players.Count; j++)
+                for (int j = 0; j < MatchMaker.instance.matchku.matches[i].players.Count; j++)
                 {
-                    if (MatchMaker.instance.matches[i].players[j].GetComponent<Player>().playerType == _typePlayer)
+                    if (MatchMaker.instance.matchku.matches[i].players[j].GetComponent<Player>().playerType == _typePlayer)
                     {
                         Debug.Log("Player already Choice");
                         return;
                     }
                 }
             }
-        }*/
+        }
 
         //pemilihan job player
         playerType = _typePlayer;

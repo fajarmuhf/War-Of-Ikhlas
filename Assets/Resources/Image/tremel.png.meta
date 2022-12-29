@@ -51,7 +51,7 @@ TextureImporter:
       213: 958510486793449316
     second: tremel_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -72,6 +72,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -110,6 +111,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -185,6 +187,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -544,6 +558,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      tremel_3: 6926021600738565160
+      tremel_9: -7045297903637018429
+      tremel_10: -4374287661960780782
+      tremel_14: 572962020323948551
+      tremel_13: -3005558546506488627
+      tremel_12: -4325393702227098364
+      tremel_7: 8033209324913787195
+      tremel_5: 6135048523174631314
+      tremel_8: 4562964012352893865
+      tremel_11: 4606863168246832630
+      tremel_15: 958510486793449316
+      tremel_1: -3128915728046184496
+      tremel_2: 7109788888289548417
+      tremel_0: -7599606077494798028
+      tremel_4: 1521666279789033584
+      tremel_6: 2489761976521414227
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
