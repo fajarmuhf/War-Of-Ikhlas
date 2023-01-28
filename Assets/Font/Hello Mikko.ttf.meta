@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 056ee5e168acb4f838eac3a5119efa59
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Hello Mikko
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9442d33db708b4bfbaac5d7684028074, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

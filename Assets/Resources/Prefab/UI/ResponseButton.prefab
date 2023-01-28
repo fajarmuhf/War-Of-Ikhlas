@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2901678981699178763}
   m_RootOrder: 0
@@ -67,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ec7774aaa6aa4471e99305a68d1d21c0, type: 2}
-  m_sharedMaterial: {fileID: 7836623148352864461, guid: ec7774aaa6aa4471e99305a68d1d21c0,
+  m_fontAsset: {fileID: 11400000, guid: 653d682454bd84478a012e50557276ef, type: 2}
+  m_sharedMaterial: {fileID: -4994849483121405199, guid: 653d682454bd84478a012e50557276ef,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -165,6 +166,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2901678981294459606}
   m_Father: {fileID: 0}

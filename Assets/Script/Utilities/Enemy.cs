@@ -75,26 +75,26 @@ public class Enemy : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("enemy"))
+        /*if (collision.gameObject.CompareTag("enemy"))
         {
             Physics2D.IgnoreCollision(collision.collider,GetComponent<Collider2D>());
         }
         if (collision.gameObject.CompareTag("Player"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        }
+        }*/
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("enemy"))
+        /*if (collision.gameObject.CompareTag("enemy"))
         {
             Physics2D.IgnoreCollision(collision.collider,GetComponent<Collider2D>());
         }
         if (collision.gameObject.CompareTag("Player"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        }
+        }*/
     }
 
     public void checkDistance() {
@@ -232,6 +232,7 @@ public class Enemy : NetworkBehaviour
             myRigidbody.velocity = Vector2.zero;
             myRigidbody.GetComponent<Enemy>().currentState = PlayerState.idle;
             reduceHealth(damage);
+            myRigidbody.isKinematic = false;
         }
     }
 }

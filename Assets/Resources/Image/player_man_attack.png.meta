@@ -1,0 +1,699 @@
+fileFormatVersion: 2
+guid: 46fbcb5ad989249eab4131c454170b0d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: player_man_attack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 545.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6941929}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a93afb1c7864941068a9d08d02ef3574
+      internalID: 703772875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 544
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.696006}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c264b1e6b7404856ae10da6ec2dafb2
+      internalID: -1334980094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_2
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 545
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6858799}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 566f9164108f24ec58f70e9b56a419b3
+      internalID: -501194108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_3
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 545.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.69570774}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c31822e0c98b748ecb45bec89e2eab96
+      internalID: 2133771285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_4
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 546
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.689163}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 303136a3724a0431ba42c286cea40fae
+      internalID: 487526723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_5
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 545.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6876622}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 618844495266849e0ac6277a0df1f48e
+      internalID: 1435780867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 364.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.62378585}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ecabb24d57e9403d815a96b0f2f8d1e
+      internalID: 1929695933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_7
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 364.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.63109463}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d069313240639481e9a1269f1fef041a
+      internalID: 1325953818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_8
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 364
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.63004124}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a69afddcf83d3442784b3ed7d307ab21
+      internalID: 1134216843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 364.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6378404}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e9b5e5be4d4e4557a24e2dd813a8d32
+      internalID: -1204438074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_10
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 364
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6362325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b5821644119c4120a548e5d97864e1d
+      internalID: 773524701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_11
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 364
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.61981165}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 460d367cf9ab84c1f91a2bf6299024b3
+      internalID: -1667784638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 183.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5694978}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9a4b1b28535c4096986139fb386bdb8
+      internalID: 1257595474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_13
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 183
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5748559}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a65372f6ac840f2b892a6fd0840ade
+      internalID: 171041555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_14
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 183
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5678946}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 279aa6613dcfc4aa6a03ef1a43cb889b
+      internalID: -1153162061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_15
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 183.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.56473285}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d986b3193cdd040708b475818e0907e5
+      internalID: -849336158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_16
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 183.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5771803}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3506a15c497344165817451da9a4c9af
+      internalID: 1985181248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_17
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 183.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5705531}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 111563385c7184c098d446bc7633ade1
+      internalID: 1556802202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5131571}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e2f29272b7249c8962e4bf7f969ddf
+      internalID: -2016275098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_19
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 2
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50321823}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0774c3dd449d8482eb68d233f3102801
+      internalID: 65334829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_20
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5043077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7c2bc67e8c9d40e6bd1002666361368
+      internalID: -1969296599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_21
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 2.25
+        width: 192
+        height: 181.75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5167898}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b546dcd88f3324dee98c66489bddc0fb
+      internalID: 1482549848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_22
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 2
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50679153}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 272cc9e8763a14134bf95a487b47fea4
+      internalID: -340403474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_man_attack_23
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 2
+        width: 192
+        height: 182
+      alignment: 9
+      pivot: {x: 0.5, y: 0.51073235}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e6e65ac203c488f8b320070d3e549d
+      internalID: -103621058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      player_man_attack_3: 2133771285
+      player_man_attack_0: 703772875
+      player_man_attack_7: 1325953818
+      player_man_attack_10: 773524701
+      player_man_attack_18: -2016275098
+      player_man_attack_1: -1334980094
+      player_man_attack_5: 1435780867
+      player_man_attack_19: 65334829
+      player_man_attack_23: -103621058
+      player_man_attack_17: 1556802202
+      player_man_attack_2: -501194108
+      player_man_attack_4: 487526723
+      player_man_attack_6: 1929695933
+      player_man_attack_11: -1667784638
+      player_man_attack_15: -849336158
+      player_man_attack_20: -1969296599
+      player_man_attack_14: -1153162061
+      player_man_attack_8: 1134216843
+      player_man_attack_9: -1204438074
+      player_man_attack_16: 1985181248
+      player_man_attack_22: -340403474
+      player_man_attack_12: 1257595474
+      player_man_attack_21: 1482549848
+      player_man_attack_13: 171041555
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

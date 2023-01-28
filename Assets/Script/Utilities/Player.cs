@@ -40,12 +40,15 @@ public class Player : NetworkBehaviour
     [SyncVar] public string directionRot2;
     [SyncVar] public float InputJX;
     [SyncVar] public float InputJY;
+    [SyncVar] public float InputJX2;
+    [SyncVar] public float InputJY2;
     [SyncVar] public int playerType;
     [SyncVar] public int mapLoad;
     [SyncVar] public PlayerState currentState;
     [SyncVar] public PlayerInventory playerInventory;
     [SyncVar] public GameObject npcInteract;
     [SyncVar] public PlayerQuest playerQuest;
+    [SyncVar] public PlayerState tempState;
 
     [Header("Player Settings")]
     public float speed;
@@ -104,6 +107,7 @@ public class Player : NetworkBehaviour
         animator.SetFloat("moveX", 0);
         animator.SetFloat("moveY", -1);
         currentState = PlayerState.walk;
+        tempState = PlayerState.walk;
         mulaiAttack = true;
         npcInteract = null;
         if (isServer)
@@ -111,6 +115,12 @@ public class Player : NetworkBehaviour
             playerInventory = ScriptableObject.CreateInstance<PlayerInventory>();
             playerQuest = ScriptableObject.CreateInstance<PlayerQuest>();
         }
+    }
+    public void initialize()
+    {
+        directionAttack = "nothing";
+        currentState = tempState;
+        mulaiAttack = true;
     }
 
     void LateUpdate()
@@ -285,19 +295,10 @@ public class Player : NetworkBehaviour
         //dijalankan di server
         if (isServer)
         {
-            if (directionAttack == "attack" && currentState != PlayerState.attack && currentState != PlayerState.stagger)
+            
+            if (directionAttack != "attack" && (currentState == PlayerState.walk || currentState == PlayerState.idle))
             {
-                if (mulaiAttack)
-                {
-                    mulaiAttack = false;
-                    currentState = PlayerState.attack;
-                    animator.SetBool("attacking", true);
-                    StartCoroutine(StopAttack());
-                }
-            }
-            if (currentState == PlayerState.walk || currentState == PlayerState.idle)
-            {
-                if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "up")
+                if (directionH == "left" || directionH == "right" || directionV == "up" || directionV == "down")
                 {
                     if (directionH == "left")
                     {
@@ -335,9 +336,60 @@ public class Player : NetworkBehaviour
                     animator.SetBool("moving", false);
                 }
             }
+            if (directionAttack == "attack" && currentState != PlayerState.attack && currentState != PlayerState.stagger)
+            {
+                if (mulaiAttack)
+                {
+                    Debug.Log(InputJX);
+                    if(InputJX2 > InputJY2 && InputJX2 > 0 && InputJY2 > 0)
+                    {
+                        animator.SetFloat("moveX", 1);
+                        animator.SetFloat("moveY", 0);
+                    }
+                    else if(InputJX2 < InputJY2 && InputJX2 > 0 && InputJY2 > 0)
+                    {
+                        animator.SetFloat("moveX", 0);
+                        animator.SetFloat("moveY", 1);
+                    }
+                    else if (Mathf.Abs(InputJX2) < Mathf.Abs(InputJY2) && InputJX2 < 0 && InputJY2 > 0)
+                    {
+                        animator.SetFloat("moveX", 0);
+                        animator.SetFloat("moveY", 1);
+                    }
+                    else if (Mathf.Abs(InputJX2) > Mathf.Abs(InputJY2) && InputJX2 < 0 && InputJY2 > 0)
+                    {
+                        animator.SetFloat("moveX", -1);
+                        animator.SetFloat("moveY", 0);
+                    }
+                    else if (Mathf.Abs(InputJX2) > Mathf.Abs(InputJY2) && InputJX2 > 0 && InputJY2 < 0)
+                    {
+                        animator.SetFloat("moveX", 1);
+                        animator.SetFloat("moveY", 0);
+                    }
+                    else if (Mathf.Abs(InputJX2) < Mathf.Abs(InputJY2) && InputJX2 > 0 && InputJY2 < 0)
+                    {
+                        animator.SetFloat("moveX", 0);
+                        animator.SetFloat("moveY", -1);
+                    }
+                    else if (InputJX2 < InputJY2 && InputJX2 < 0 && InputJY2 < 0)
+                    {
+                        animator.SetFloat("moveX", -1);
+                        animator.SetFloat("moveY", 0);
+                    }
+                    else if (InputJX2 > InputJY2 && InputJX2 < 0 && InputJY2 < 0)
+                    {
+                        animator.SetFloat("moveX", 0);
+                        animator.SetFloat("moveY", -1);
+                    }
+
+                    mulaiAttack = false;
+                    tempState = currentState;
+                    currentState = PlayerState.attack;
+                    animator.SetBool("attacking", true);
+                    StartCoroutine(StopAttack());
+                }
+            }
         }
-        //Jika player tidak punya autoritas maka keluar
-        if (!hasAuthority) { return; }
 
         if (isLocalPlayer)
         {
@@ -424,9 +476,16 @@ public class Player : NetworkBehaviour
         CmdAttack();
     }
 
+    public void endAttack()
+    {
+
+        animator.SetBool("attacking", false);
+        currentState = tempState;
+    }
+
     public IEnumerator StopAttack()
     {
-        int animHash = Animator.StringToHash("Base Layer.attackDown");
+        int animHash = Animator.StringToHash("Base Layer.Attack");
         while (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animHash)
         {
             yield return null;
@@ -442,16 +501,15 @@ public class Player : NetworkBehaviour
             yield return null;
         }
 
-        animator.SetBool("attacking", false);
-        directionAttack = "nothing";
-        currentState = PlayerState.walk;
-        mulaiAttack = true;
     }
 
     [Command]
     private void CmdAttack()
     {
-        directionAttack = "attack";
+        if (directionAttack == "nothing")
+        {
+            directionAttack = "attack";
+        }
     }
 
     [Command]
@@ -472,6 +530,7 @@ public class Player : NetworkBehaviour
     private void CmdMoveLeftSide(float input)
     {
         InputJX = input;
+        InputJX2 = input;
         directionH = "left";
     }
 
@@ -479,6 +538,7 @@ public class Player : NetworkBehaviour
     private void CmdMoveRightSide(float input)
     {
         InputJX = input;
+        InputJX2 = input;
         directionH = "right";
     }
 
@@ -486,6 +546,7 @@ public class Player : NetworkBehaviour
     private void CmdMoveUpSide(float input)
     {
         InputJY = input;
+        InputJY2 = input;
         directionV = "up";
     }
 
@@ -493,6 +554,7 @@ public class Player : NetworkBehaviour
     private void CmdMoveDownSide(float input)
     {
         InputJY = input;
+        InputJY2 = input;
         directionV = "down";
     }
     void Awake()

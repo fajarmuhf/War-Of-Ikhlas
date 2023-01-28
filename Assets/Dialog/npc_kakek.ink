@@ -11,7 +11,7 @@ VAR jumlahRewardItem = 0
 EXTERNAL takeQuestNow(level,reward)
 EXTERNAL giveRewardQuest(level)
 
-LIST ItemsRewardList = 1_1_1_bismi, 1_1_2_allah
+LIST ItemsRewardList = 1_1_1_apple
 
 { introQuest:
 - 0: -> NoIntruduction
@@ -39,7 +39,7 @@ Hello {name}, Welcome to Islamic Island.My name is {myName}. -> NoIntruduction
 }
 -> END
 === RLevel1 ===
-~ rewardItem = (1_1_1_bismi)
+~ rewardItem = (1_1_1_apple)
 { takeQuest:
 - 1: ->RewardLevel1
 - else: ->FinishQuest
@@ -50,7 +50,7 @@ Hello {name}, Welcome to Islamic Island.My name is {myName}. -> NoIntruduction
 ->ContinueDoneQuest
 
 === RLevel2 ===
-~ rewardItem = (1_1_2_allah)
+~ rewardItem = (1_1_1_apple)
 { takeQuest:
 - 1: ->RewardLevel1
 - else: ->FinishQuest

@@ -204,7 +204,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -342,7 +342,7 @@ RectTransform:
   m_GameObject: {fileID: 968976358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1798898089}
@@ -351,7 +351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -133}
   m_SizeDelta: {x: 400, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &968976360
@@ -430,8 +430,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: d779eda9761034837be07f411ed2d58c, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -517,7 +517,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 975680473}
-  networkAddress: localhost
+  networkAddress: 192.168.1.104
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 5053980871744965489, guid: 81239110c6f9849f3872c01e69a631c1,
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975680472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
@@ -699,18 +699,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: War of Ikhlas
+  m_text: 'FARHAN
+
+    FRUIT'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ec7774aaa6aa4471e99305a68d1d21c0, type: 2}
-  m_sharedMaterial: {fileID: 7836623148352864461, guid: ec7774aaa6aa4471e99305a68d1d21c0,
+  m_fontAsset: {fileID: 11400000, guid: 7af7075fc56c44a1688e17bfbffe36fb, type: 2}
+  m_sharedMaterial: {fileID: -5371328930532836712, guid: 7af7075fc56c44a1688e17bfbffe36fb,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278421802
-  m_fontColor: {r: 0.16521223, g: 0.5377358, b: 0.012682447, a: 1}
+    rgba: 4281073408
+  m_fontColor: {r: 0, g: 1, b: 0.17021275, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -787,6 +789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1623951134}
   - component: {fileID: 1623951133}
+  - component: {fileID: 1623951135}
   m_Layer: 0
   m_Name: Latar
   m_TagString: Untagged
@@ -835,12 +838,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5ab45f2e807c143eeb8d855f44e8b0b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 207ee7cf6d2644898883de212687c0dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 11.78}
+  m_Size: {x: 7.5, y: 4.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -854,13 +857,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623951132}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.28, z: 0}
-  m_LocalScale: {x: 0.94, y: 0.94, z: 1}
+  m_LocalPosition: {x: -0.2569, y: 0.34, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1623951135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623951132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29b8fc5970704eb7b05331bf5e9858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KeepAspectRatio: 0
 --- !u!1 &1757133652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.35857058, b: 1, a: 1}
+  m_Color: {r: 0.013305452, g: 0.21698111, b: 0.040829197, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1022,13 +1038,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: c48d75a038e85494b87d2fad5f0a2017, type: 3}
-    m_FontSize: 80
+    m_Font: {fileID: 12800000, guid: f91e13da41fc54cd6bedf0e04c102230, type: 3}
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 200
-    m_Alignment: 7
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

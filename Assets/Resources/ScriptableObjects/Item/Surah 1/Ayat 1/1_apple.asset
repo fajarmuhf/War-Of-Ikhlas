@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8897bd1544c40109b8647eb4cf8f8e, type: 3}
-  m_Name: 1_bismi
+  m_Name: 1_apple
   m_EditorClassIdentifier: 
   itemId: 1
-  itemName: "\u0628\u0650\u0633\u0652\u0645\u0650"
-  itemDescription: dengan nama
-  itemImage: Image/items
-  itemImageIndex: 49
+  itemName: apple
+  itemDescription: mengandung vitamin a
+  itemImage: Image/Fruits
+  itemImageIndex: 0
   numberHeld: 1
   usable: 1
   unique: 1

@@ -1,13 +1,362 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "3268fe3c",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "3268fe3c",
+        "name": "com.DefaultCompany.WarofIkhlas",
+        "processId": 8738,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 19089,
+            "exited": true
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 20793,
+            "exited": true
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 21109,
+            "exited": true
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 23450,
+            "exited": true
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 23977,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 25411,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 25890,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 26231,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 26610,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 27976,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 28370,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 28776,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 29004,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 29460,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 30688,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 31152,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 31422,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 31799,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 593,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 1058,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 1813,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 2703,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 4250,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 4590,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 5351,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 5876,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 6321,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 6669,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 7105,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 7475,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 7856,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 8458,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 9178,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 9727,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 10501,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 10912,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 11365,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 13018,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 13393,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 13948,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 14544,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 15262,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 16860,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 17392,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 17722,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 18176,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 18983,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 19810,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 22151,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 23099,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 24980,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 27245,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 28157,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 28620,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 29764,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 7092,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 10087,
+            "exited": false
+        },
+        {
+            "deviceId": "3268fe3c",
+            "name": "com.DefaultCompany.WarofIkhlas",
+            "processId": 8738,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,13 +390,38 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },
-    "m_Filter": "",
-    "m_FilterIsRegularExpression": false,
-    "m_SymbolPaths": []
+    "m_FilterOptions": {
+        "m_Filter": "",
+        "m_UseRegularExpressions": false,
+        "m_MatchCase": false
+    },
+    "m_SymbolPaths": [],
+    "m_CaptureVideoSettings": {
+        "TimeLimitEnabled": false,
+        "TimeLimit": 180,
+        "VideoSizeEnabled": false,
+        "VideoSizeX": 1280,
+        "VideoSizeY": 720,
+        "BitRateEnabled": false,
+        "BitRateK": 20000,
+        "DisplayIdEnabled": false,
+        "DisplayId": ""
+    }
 }

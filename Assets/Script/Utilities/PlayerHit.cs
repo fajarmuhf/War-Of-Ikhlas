@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerHit : MonoBehaviour
 {
+    public bool boleh;
     // Start is called before the first frame update
     void Start()
     {
+        boleh = false;
     }
 
     // Update is called once per frame
@@ -20,7 +22,11 @@ public class PlayerHit : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("enemy") && collision.GetComponent<Enemy>().MatchID == transform.parent.gameObject.GetComponent<Player>().MatchID)
             {
-                collision.gameObject.GetComponent<Enemy>().reduceHealth();
+                if (!boleh)
+                {
+                    collision.gameObject.GetComponent<Enemy>().reduceHealth(1);
+                    boleh = true;
+                }
             }
         }*/
     }
