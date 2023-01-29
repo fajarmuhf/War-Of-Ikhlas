@@ -33,7 +33,7 @@ public class LobbyController : MonoBehaviour
         instance = this;
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(joinButton.gameObject);
+        //EventSystem.current.SetSelectedGameObject(joinButton.gameObject);
     }
 
     public void HostPrivate()
@@ -88,6 +88,7 @@ public class LobbyController : MonoBehaviour
             lobbyCanvas.enabled = true;
             beginGameButton.SetActive(false);
             playerLobbyUI = spawnPlayerPrefab(Player.localPlayer);
+            Player.localPlayer.addLobi();
             Player.localPlayer.playerLobbyUI = playerLobbyUI;
             matchIDText.text = _matchID;
             //Player.localPlayer.SpawnToPoint();

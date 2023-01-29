@@ -49,6 +49,8 @@ public class Player : NetworkBehaviour
     [SyncVar] public GameObject npcInteract;
     [SyncVar] public PlayerQuest playerQuest;
     [SyncVar] public PlayerState tempState;
+    [SyncVar] public List<Player> otherPlayer;
+    [SyncVar] public int otheritung;
 
     [Header("Player Settings")]
     public float speed;
@@ -79,8 +81,9 @@ public class Player : NetworkBehaviour
         }
         else
         {
+            Player.localPlayer.otherPlayer.Add(this);
             //inisialisasi GameObject UI Player di Lobby
-            playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(this);
+            //playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(this);
         }
     }
 
@@ -110,10 +113,15 @@ public class Player : NetworkBehaviour
         tempState = PlayerState.walk;
         mulaiAttack = true;
         npcInteract = null;
+        otheritung = 1;
         if (isServer)
         {
             playerInventory = ScriptableObject.CreateInstance<PlayerInventory>();
             playerQuest = ScriptableObject.CreateInstance<PlayerQuest>();
+        }
+        if (Player.localPlayer.otherPlayer == null)
+        {
+            Player.localPlayer.otherPlayer = new List<Player>();
         }
     }
     public void initialize()
@@ -123,10 +131,17 @@ public class Player : NetworkBehaviour
         mulaiAttack = true;
     }
 
+    private void Update()
+    {
+
+    }
+
     void LateUpdate()
     {
+
+
         //Jika player tidak punya autoritas maka keluar
-        if (!hasAuthority) { return; }
+        if (!isOwned) { return; }
 
         if (isLocalPlayer)
         {
@@ -238,6 +253,21 @@ public class Player : NetworkBehaviour
         CmdInteract();
     }
 
+    [Command]
+    public void addLobi()
+    {
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
+        {
+            GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>().addLobiClient();
+        }
+    }
+    [TargetRpc]
+    public void addLobiClient()
+    {
+        for (int i=0;i< otherPlayer.Count;i++) {
+            otherPlayer[i].playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(otherPlayer[i]);
+        }
+    }
     [Command]
     public void CmdInteract()
     {
