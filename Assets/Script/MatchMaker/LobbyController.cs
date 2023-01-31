@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class LobbyController : MonoBehaviour
 {
     public static LobbyController instance;
+
 
     [Header("Host Join")]
     [SerializeField] InputField joinInput;
@@ -33,7 +35,7 @@ public class LobbyController : MonoBehaviour
         instance = this;
 
         EventSystem.current.SetSelectedGameObject(null);
-        //EventSystem.current.SetSelectedGameObject(joinButton.gameObject);
+        EventSystem.current.SetSelectedGameObject(joinButton.gameObject);
     }
 
     public void HostPrivate()
@@ -57,17 +59,21 @@ public class LobbyController : MonoBehaviour
         if (success)
         {
             lobbyCanvas.enabled = true;
+            Player.indexPlayer = 1;
+            Player.localPlayer.MatchID = _matchID;
             playerLobbyUI = spawnPlayerPrefab(Player.localPlayer);
             Player.localPlayer.playerLobbyUI = playerLobbyUI;
             beginGameButton.SetActive(true);
             matchIDText.text = _matchID;
+            Debug.Log("sukses");
             //Player.localPlayer.SpawnToPoint();
 
-            //EventSystem.current.SetSelectedGameObject(null);
-            //EventSystem.current.SetSelectedGameObject(beginButton.gameObject);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(beginButton.gameObject);
         }
         else
         {
+            Debug.Log("gagal");
             joinInput.interactable = true;
             lobbySelectable.ForEach(x => x.interactable = true);
 
@@ -87,10 +93,13 @@ public class LobbyController : MonoBehaviour
         {
             lobbyCanvas.enabled = true;
             beginGameButton.SetActive(false);
+            Player.localPlayer.MatchID = _matchID;
             playerLobbyUI = spawnPlayerPrefab(Player.localPlayer);
-            Player.localPlayer.addLobi();
             Player.localPlayer.playerLobbyUI = playerLobbyUI;
             matchIDText.text = _matchID;
+            Player.localPlayer.otheritung = 2;
+            Debug.Log("sukses");
+            Player.localPlayer.mulaiLobi();
             //Player.localPlayer.SpawnToPoint();
 
             EventSystem.current.SetSelectedGameObject(null);
@@ -98,6 +107,7 @@ public class LobbyController : MonoBehaviour
         }
         else
         {
+            Debug.Log("gagal");
             joinInput.interactable = true;
             lobbySelectable.ForEach(x => x.interactable = true);
 
@@ -178,7 +188,7 @@ public class LobbyController : MonoBehaviour
     }
     public void ChoicePlayer(int _typePlayer)
     {
-        Player.localPlayer.Choice(_typePlayer);
+        Player.localPlayer.CmdChoice(_typePlayer);
     }
 
 }

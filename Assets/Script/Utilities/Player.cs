@@ -19,6 +19,7 @@ public class Player : NetworkBehaviour
 {
     [Header("Object setting")]
     public static Player localPlayer;
+    public static int indexPlayer;
     public static Transform localTransformPlayer;
 
     [Header("GameObject setting")]
@@ -49,8 +50,11 @@ public class Player : NetworkBehaviour
     [SyncVar] public GameObject npcInteract;
     [SyncVar] public PlayerQuest playerQuest;
     [SyncVar] public PlayerState tempState;
-    [SyncVar] public List<Player> otherPlayer;
     [SyncVar] public int otheritung;
+    [SyncVar] public int pertamaNama;
+
+
+    NetworkMatch networkMatch;
 
     [Header("Player Settings")]
     public float speed;
@@ -58,11 +62,26 @@ public class Player : NetworkBehaviour
     public Vector2 maxPosition;
     public bool mulaiAttack;
 
+    Guid netIDGuid;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+        networkMatchChecker = GetComponent<NetworkMatch>();
+        networkMatch = GetComponent<NetworkMatch>();
+    }
+
+
+    public override void OnStartServer()
+    {
+        netIDGuid = netId.ToString().ToGuid();
+        networkMatch.matchId = netIDGuid;
+    }
+
     // Pada saat mulai koneksi client
     public override void OnStartClient()
     {
         base.OnStartClient();
-
         if (isLocalPlayer)
         {
             //inisialisasi Object Player
@@ -81,10 +100,76 @@ public class Player : NetworkBehaviour
         }
         else
         {
-            Player.localPlayer.otherPlayer.Add(this);
+            //Player.localPlayer.otherPlayer.Add(this);
             //inisialisasi GameObject UI Player di Lobby
-            //playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(this);
         }
+    }
+    public void mulaiLobi()
+    {
+        Debug.Log("mulai hola");
+        cmdMulaiLobi();
+    }
+    [Command]
+    public void cmdMulaiLobi()
+    {
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
+        {
+            GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>().addMulaiLobi(playerIndex, MatchID);
+        }
+    }
+    [TargetRpc]
+    public void addMulaiLobi(int index,string matchID)
+    {
+        if (isLocalPlayer)
+        {
+            Debug.Log("hola");
+            otheritung = 2;
+        }
+    }
+    public void addUIPlayer()
+    {
+        if (playerLobbyUI == null)
+        {
+            if (MatchID != "")
+            {
+                Player.localPlayer.CmdaddUIPlayer();
+
+                playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(this);
+                Player.localPlayer.otheritung = 1;
+            }
+        }
+    }
+    [Command]
+    public void CmdaddUIPlayer()
+    {
+        for (int i = 0; i < MatchMaker.instance.matches.matches.Count; i++)
+        {
+            Debug.Log(MatchMaker.instance.matches.matches[i].matchId + " = " + MatchID);
+            if (MatchMaker.instance.matches.matches[i].matchId == MatchID)
+            {
+                for (int j = 0; j < MatchMaker.instance.matches.matches[i].players.Count; j++)
+                {
+                    if (MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().MatchID == MatchID)
+                    {
+                        int playerIndextmp = MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().playerIndex;
+                        string matchIdtmp = MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().MatchID;
+
+                        MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().playerIndex = 0;
+                        MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().MatchID = "";
+                        MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().playerIndex = playerIndextmp;
+                        MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().MatchID = matchIdtmp;
+
+                    }
+                }
+            }
+        }
+    }
+    [TargetRpc]
+    public void ClientaddUIPlayer(int _index,string _matchid)
+    {
+        Debug.Log("Player "+_index+" - "+_matchid);
+        playerIndex = _index;
+        MatchID = _matchid;
     }
 
     //pada saat client disconnect
@@ -114,14 +199,11 @@ public class Player : NetworkBehaviour
         mulaiAttack = true;
         npcInteract = null;
         otheritung = 1;
+        pertamaNama = 1;
         if (isServer)
         {
             playerInventory = ScriptableObject.CreateInstance<PlayerInventory>();
             playerQuest = ScriptableObject.CreateInstance<PlayerQuest>();
-        }
-        if (Player.localPlayer.otherPlayer == null)
-        {
-            Player.localPlayer.otherPlayer = new List<Player>();
         }
     }
     public void initialize()
@@ -133,7 +215,26 @@ public class Player : NetworkBehaviour
 
     private void Update()
     {
+        if (isClient)
+        {
+            if (!isLocalPlayer)
+            {
+                if (Player.localPlayer != null)
+                {
+                    if (Player.localPlayer.otheritung == 2)
+                    {
+                        addUIPlayer();
+                    }
+                }
 
+                
+            }
+            if (MatchID != "" && pertamaNama == 1)
+            {
+                name = "Player " + playerIndex +" - "+MatchID;
+                pertamaNama = 2;
+            }
+        }
     }
 
     void LateUpdate()
@@ -253,21 +354,6 @@ public class Player : NetworkBehaviour
         CmdInteract();
     }
 
-    [Command]
-    public void addLobi()
-    {
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
-        {
-            GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>().addLobiClient();
-        }
-    }
-    [TargetRpc]
-    public void addLobiClient()
-    {
-        for (int i=0;i< otherPlayer.Count;i++) {
-            otherPlayer[i].playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(otherPlayer[i]);
-        }
-    }
     [Command]
     public void CmdInteract()
     {
@@ -476,14 +562,14 @@ public class Player : NetworkBehaviour
         int loadCount = 0;
         int maxCount = 0;
         //if(true)
-        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
+        for (int i = 0; i < MatchMaker.instance.matches.matches.Count; i++)
         {
             //if(true)
-            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
+            if (MatchMaker.instance.matches.matches[i].matchId == MatchID)
             {
-                maxCount = MatchMaker.instance.matchku.matches[i].players.Count;
+                maxCount = MatchMaker.instance.matches.matches[i].players.Count;
                 //if(true)
-                foreach (var player in MatchMaker.instance.matchku.matches[i].players)
+                foreach (var player in MatchMaker.instance.matches.matches[i].players)
                 {
                     //if(true)
                     if(player.GetComponent<Player>().mapLoad == 1)
@@ -587,86 +673,107 @@ public class Player : NetworkBehaviour
         InputJY2 = input;
         directionV = "down";
     }
-    void Awake()
-    {
-        DontDestroyOnLoad(this);
-        networkMatchChecker = GetComponent<NetworkMatch>();
-    }
 
     /*
      Host Game
      */
     public void HostGame(bool publicMatch)
     {
-        string matchId = MatchMaker.getRandomMatchId();
-        CmdHostGame(matchId, publicMatch);
+        string matchID = MatchMaker.getRandomMatchId();
+        CmdHostGame(matchID, publicMatch);
     }
+
     [Command]
-    void CmdHostGame(string matchId, bool publicMatch)
+    void CmdHostGame(string _matchID, bool publicMatch)
     {
-        MatchID = matchId;
-        if (MatchMaker.instance.HostGame(matchId, gameObject, publicMatch, out playerIndex))
+        MatchID = _matchID;
+        if (MatchMaker.instance.HostGame(_matchID, gameObject, publicMatch, out playerIndex))
         {
-            Debug.Log("Game Hosted Successfully");
-            networkMatchChecker.matchId = matchId.ToGuid();
-            TargetHostGame(true, matchId, playerIndex);
-            TargetHostGameAll(playerIndex);
+            Debug.Log($"<color=green>Game hosted successfully</color>");
+            networkMatch.matchId = _matchID.ToGuid();
+            TargetHostGame(true, _matchID, playerIndex);
+            TargetHostGameAll(playerIndex,_matchID);
         }
         else
         {
-            Debug.Log("Game Hosted Failed");
-            TargetHostGame(false, matchId, playerIndex);
-            TargetHostGameAll(playerIndex);
+            Debug.Log($"<color=red>Game hosted failed</color>");
+            TargetHostGame(false, _matchID, playerIndex);
+            TargetHostGameAll(playerIndex, _matchID);
         }
     }
+
     [TargetRpc]
-    void TargetHostGame(bool _success, string _matchId, int _playerIndex)
+    void TargetHostGame(bool success, string _matchID, int _playerIndex)
     {
         playerIndex = _playerIndex;
-        MatchID = _matchId;
-        LobbyController.instance.HostSuccess(_success, _matchId);
+        MatchID = _matchID;
+        Debug.Log($"MatchID: {MatchID} == {_matchID}");
+        LobbyController.instance.HostSuccess(success, _matchID);
     }
     [ClientRpc]
-    void TargetHostGameAll(int _playerIndex)
+    void TargetHostGameAll(int _playerIndex,string _matchid)
     {
-        name = "Player " + playerIndex;
+        playerIndex = _playerIndex;
+        name = "Player " + playerIndex+" - "+_matchid;
+        if(playerLobbyUI!=null)
+        playerLobbyUI.GetComponent<UIPlayer>().setPlayer(this);
     }
+
+    /* 
+        JOIN MATCH
+    */
+
+    public void JoinGame(string _inputID)
+    {
+        CmdJoinGame(_inputID);
+    }
+
+    [Command]
+    void CmdJoinGame(string _matchID)
+    {
+        MatchID = _matchID;
+        if (MatchMaker.instance.JoinGame(_matchID, gameObject, out playerIndex))
+        {
+            Debug.Log($"<color=green>Game Joined successfully</color>");
+            networkMatch.matchId = _matchID.ToGuid();
+            TargetJoinGame(true, _matchID, playerIndex);
+            for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
+            {
+                GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>().TargetJoinGameAll(playerIndex, _matchID);
+            }
+            //Host
+            if (isServer && playerLobbyUI != null)
+            {
+                playerLobbyUI.SetActive(true);
+            }
+        }
+        else
+        {
+            Debug.Log($"<color=red>Game Joined failed</color>");
+            TargetJoinGame(false, _matchID, playerIndex);
+            TargetJoinGameAll(playerIndex,_matchID);
+        }
+    }
+
+    [TargetRpc]
+    void TargetJoinGame(bool success, string _matchID, int _playerIndex)
+    {
+        playerIndex = _playerIndex;
+        MatchID = _matchID;
+        Debug.Log($"MatchID: {MatchID} == {_matchID}");
+        LobbyController.instance.JoinSuccess(success, _matchID);
+    }
+
     /*
      Join Game
      */
-    public void JoinGame(string inputId)
-    {
-        CmdJoinGame(inputId);
-    }
-    [Command]
-    void CmdJoinGame(string matchId)
-    {
-        MatchID = matchId;
-        if (MatchMaker.instance.JoinGame(matchId, gameObject, out playerIndex))
-        {
-            Debug.Log("Game Joined Successfully");
-            networkMatchChecker.matchId = matchId.ToGuid();
-            TargetJoinGame(true, matchId, playerIndex);
-            TargetJoinGameAll(playerIndex);
-        }
-        else
-        {
-            Debug.Log("Game Joined Failed");
-            TargetJoinGame(false, matchId, playerIndex);
-            TargetJoinGameAll(playerIndex);
-        }
-    }
-    [TargetRpc]
-    void TargetJoinGame(bool _success, string _matchId, int _playerIndex)
+    [ClientRpc]
+    void TargetJoinGameAll(int _playerIndex, string _matchID)
     {
         playerIndex = _playerIndex;
-        MatchID = _matchId;
-        LobbyController.instance.JoinSuccess(_success, _matchId);
-    }
-    [ClientRpc]
-    void TargetJoinGameAll(int _playerIndex)
-    {
-        name = "Player " + playerIndex;
+        Debug.Log("Join Player " + playerIndex);
+        name = "Player " + playerIndex+" - "+ _matchID;
+        playerLobbyUI.GetComponent<UIPlayer>().setPlayer(this);
     }
     /*
      Search Match
@@ -675,30 +782,39 @@ public class Player : NetworkBehaviour
     {
         CmdSearchGame();
     }
+
     [Command]
     void CmdSearchGame()
     {
         if (MatchMaker.instance.SearchGame(gameObject, out playerIndex, out MatchID))
         {
-            Debug.Log("Game Search Successfully");
-            networkMatchChecker.matchId = MatchID.ToGuid();
+            Debug.Log($"<color=green>Game Found Successfully</color>");
+            networkMatch.matchId = MatchID.ToGuid();
             TargetSearchGame(true, MatchID, playerIndex);
-            TargetJoinGameAll(playerIndex);
+
+            //Host
+            if (isServer && playerLobbyUI != null)
+            {
+                playerLobbyUI.SetActive(true);
+            }
         }
         else
         {
-            Debug.Log("Game Search Failed");
+            Debug.Log($"<color=red>Game Search Failed</color>");
             TargetSearchGame(false, MatchID, playerIndex);
-            TargetJoinGameAll(playerIndex);
         }
     }
+
     [TargetRpc]
-    public void TargetSearchGame(bool _success, string _matchId, int _playerIndex)
+    void TargetSearchGame(bool success, string _matchID, int _playerIndex)
     {
         playerIndex = _playerIndex;
-        MatchID = _matchId;
-        LobbyController.instance.SearchSuccess(_success, _matchId);
+        MatchID = _matchID;
+        Debug.Log($"MatchID: {MatchID} == {_matchID} | {success}");
+        LobbyController.instance.SearchSuccess(success, _matchID);
     }
+
+
 
     /*
      Begin Game
@@ -710,13 +826,13 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
-        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
+        for (int i = 0; i < MatchMaker.instance.matches.matches.Count; i++)
         {
-            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
+            if (MatchMaker.instance.matches.matches[i].matchId == MatchID)
             {
-                for (int j = 0; j < MatchMaker.instance.matchku.matches[i].players.Count; j++)
+                for (int j = 0; j < MatchMaker.instance.matches.matches[i].players.Count; j++)
                 {
-                    if (MatchMaker.instance.matchku.matches[i].players[j].GetComponent<Player>().playerType == -1)
+                    if (MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().playerType == -1)
                     {
                         Debug.Log("Please choice player");
                         return;
@@ -754,13 +870,13 @@ public class Player : NetworkBehaviour
     public void CmdChoice(int _typePlayer)
     {
         //Jika player sudah dipilih maka fungsi selesai
-        for (int i = 0; i < MatchMaker.instance.matchku.matches.Count; i++)
+        for (int i = 0; i < MatchMaker.instance.matches.matches.Count; i++)
         {
-            if (MatchMaker.instance.matchku.matches[i].matchId == MatchID)
+            if (MatchMaker.instance.matches.matches[i].matchId == MatchID)
             {
-                for (int j = 0; j < MatchMaker.instance.matchku.matches[i].players.Count; j++)
+                for (int j = 0; j < MatchMaker.instance.matches.matches[i].players.Count; j++)
                 {
-                    if (MatchMaker.instance.matchku.matches[i].players[j].GetComponent<Player>().playerType == _typePlayer)
+                    if (MatchMaker.instance.matches.matches[i].players[j].GetComponent<Player>().playerType == _typePlayer)
                     {
                         Debug.Log("Player already Choice");
                         return;
@@ -805,6 +921,7 @@ public class Player : NetworkBehaviour
         MatchMaker.instance.PlayerDisconnected(this, MatchID);
         networkMatchChecker.matchId = string.Empty.ToGuid();
         RpcDisconnectGame(lobbyScene);
+
     }
     [ClientRpc]
     public void RpcDisconnectGame(int lobbyScene)
@@ -826,7 +943,15 @@ public class Player : NetworkBehaviour
                         GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>().playerLobbyUI.GetComponent<UIPlayer>().setPlayer(GameObject.FindGameObjectsWithTag("Player")[i].GetComponent<Player>());
                     }
                 }
-                Destroy(playerLobbyUI);
+                if (!isServer)
+                {
+                    Destroy(playerLobbyUI);
+                }
+                else
+                {
+                    playerLobbyUI.SetActive(false);
+                }
+
             }
             if (lobbyScene == 0)
             {
@@ -836,4 +961,5 @@ public class Player : NetworkBehaviour
             }
         }
     }
+
 }

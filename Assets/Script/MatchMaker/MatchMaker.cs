@@ -54,16 +54,16 @@ public class Matchku
 {
     public SyncListMatch matches = new SyncListMatch();
     public SyncListString matchIDs = new SyncListString();
-
+    public Match currentmatch = new Match();
     
 }
 
 public class MatchMaker : NetworkBehaviour
 {
-
     public static MatchMaker instance;
-    public Matchku matchku = new Matchku();
-    
+
+    public Matchku matches = new Matchku();
+
     [SerializeField] GameObject turnManagerPrefab;
 
     void Start()
@@ -71,10 +71,15 @@ public class MatchMaker : NetworkBehaviour
         Debug.Log("match ok");
         instance = this;
 
+
         if (isServer)
         {
             SceneManager.LoadScene("Homestead", LoadSceneMode.Additive);
         }
+    }
+
+    void Update()
+    {
     }
 
     //fungsi untuk mendapatkan random untuk match id
@@ -102,15 +107,15 @@ public class MatchMaker : NetworkBehaviour
     {
         playerIndex = -1;
         //jika matchid belum terdaftar
-        if (!matchku.matchIDs.Contains(_matchId))
+        if (!matches.matchIDs.Contains(_matchId))
         {
             //membuat match id baru
-            matchku.matchIDs.Add(_matchId);
+            matches.matchIDs.Add(_matchId);
 
             //membuat match baru dan ditambahkan ke list mathes
             Match matchBaru = new Match(_matchId, _player);
             matchBaru.publicMatch = publicMatch;
-            matchku.matches.Add(matchBaru);
+            matches.matches.Add(matchBaru);
             Debug.Log("Match generated");
             playerIndex = 1;
             return true;
@@ -131,11 +136,11 @@ public class MatchMaker : NetworkBehaviour
         matchId = String.Empty;
 
         //membuat fungsi join game jika Match adalah public ,tidak penuh dan tidak sedang bermain 
-        for (int i = 0; i < matchku.matches.Count; i++)
+        for (int i = 0; i < matches.matches.Count; i++)
         {
-            if (matchku.matches[i].publicMatch && !matchku.matches[i].matchFull && !matchku.matches[i].inMatch)
+            if (matches.matches[i].publicMatch && !matches.matches[i].matchFull && !matches.matches[i].inMatch)
             {
-                matchId = matchku.matches[i].matchId;
+                matchId = matches.matches[i].matchId;
                 if (JoinGame(matchId, _player, out playerIndex))
                 {
                     return true;
@@ -153,14 +158,14 @@ public class MatchMaker : NetworkBehaviour
         playerIndex = -1;
 
         //jika matchid sudah terdaftar maka tambahkan pemain dan playerIndex
-        if (matchku.matchIDs.Contains(_matchId))
+        if (matches.matchIDs.Contains(_matchId))
         {
-            for (int i = 0; i < matchku.matches.Count; i++)
+            for (int i = 0; i < matches.matches.Count; i++)
             {
-                if (matchku.matches[i].matchId == _matchId)
+                if (matches.matches[i].matchId == _matchId)
                 {
-                    matchku.matches[i].players.Add(_player);
-                    playerIndex = matchku.matches[i].players.Count;
+                    matches.matches[i].players.Add(_player);
+                    playerIndex = matches.matches[i].players.Count;
                     break;
                 }
             }
@@ -185,16 +190,16 @@ public class MatchMaker : NetworkBehaviour
         TurnManager turnManager = newTurnManager.GetComponent<TurnManager>();
 
         //jika matchid ditemukan maka permainan dimulai sesuai playernya
-        for (int i = 0; i < matchku.matches.Count; i++)
+        for (int i = 0; i < matches.matches.Count; i++)
         {
-            if (matchku.matches[i].matchId == _matchId)
+            if (matches.matches[i].matchId == _matchId)
             {
-                foreach (var player in matchku.matches[i].players)
+                foreach (var player in matches.matches[i].players)
                 {
                     Player _player = player.GetComponent<Player>();
                     turnManager.AddPlayer(_player);
                     _player.StartGame();
-                    matchku.matches[i].inMatch = true;
+                    matches.matches[i].inMatch = true;
                 }
                 break;
             }
@@ -205,39 +210,40 @@ public class MatchMaker : NetworkBehaviour
     public void PlayerDisconnected(Player _player, string _matchId)
     {
         //jika matchid ditemukan
-        for (int i = 0; i < matchku.matches.Count; i++)
+        for (int i = 0; i < matches.matches.Count; i++)
         {
-            if (matchku.matches[i].matchId == _matchId)
+            if (matches.matches[i].matchId == _matchId)
             {
-                //menghapus player yang disconnect dari matchku.matches
-                var playerIndex = matchku.matches[i].players.IndexOf(_player.gameObject);
-                matchku.matches[i].players.RemoveAt(playerIndex);
+                //menghapus player yang disconnect dari matches
+                var playerIndex = matches.matches[i].players.IndexOf(_player.gameObject);
+                matches.matches[i].players.RemoveAt(playerIndex);
 
                 //mengeser index player dari player yang disconnect
-                for (int j = 0; j < matchku.matches[i].players.Count; j++)
+                for (int j = 0; j < matches.matches[i].players.Count; j++)
                 {
-                    if (matchku.matches[i].players[j].GetComponent<Player>().playerIndex > _player.playerIndex)
+                    if (matches.matches[i].players[j].GetComponent<Player>().playerIndex > _player.playerIndex)
                     {
-                        matchku.matches[i].players[j].GetComponent<Player>().playerIndex -= 1;
+                        matches.matches[i].players[j].GetComponent<Player>().playerIndex -= 1;
                     }
                 }
 
                 Debug.Log("Player disconnect from lobby");
 
                 //jika player kosong disuatu match
-                if (matchku.matches[i].players.Count == 0)
+                if (matches.matches[i].players.Count == 0)
                 {
                     //hapus item-item dimatch dan hapus match
-                    for (int j = 0; j < MatchMaker.instance.matchku.matches[i].items.Count; j++)
-                        Destroy(MatchMaker.instance.matchku.matches[i].items[j]);
-                    matchku.matches.RemoveAt(i);
-                    matchku.matchIDs.Remove(_matchId);
+                    for (int j = 0; j < MatchMaker.instance.matches.matches[i].items.Count; j++)
+                        Destroy(MatchMaker.instance.matches.matches[i].items[j]);
+                    matches.matches.RemoveAt(i);
+                    matches.matchIDs.Remove(_matchId);
                 }
 
                 break;
             }
         }
     }
+
 }
 
 public static class MatchExtensions

@@ -402,6 +402,8 @@ MonoBehaviour:
   npcInteract: {fileID: 0}
   playerQuest: {fileID: 0}
   tempState: 0
+  otheritung: 0
+  pertamaNama: 0
   speed: 4
   minPosition: {x: 0, y: -10}
   maxPosition: {x: 2, y: 0}
@@ -469,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   target: {fileID: 421467008423646958}
   clientAuthority: 0
   syncVelocity: 1

@@ -40,6 +40,8 @@ public class Enemy : NetworkBehaviour
             Physics2D.IgnoreCollision(musuh.GetComponent<Collider2D>(),GetComponent<Collider2D>());
         }
         currentState = PlayerState.idle;
+
+        GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
     public void setMatchId(string matchId)

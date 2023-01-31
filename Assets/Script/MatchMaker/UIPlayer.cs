@@ -19,6 +19,6 @@ public class UIPlayer : MonoBehaviour
     {
         this.player = player;
         Debug.Log("Update to "+player.playerIndex.ToString());
-        text.text = "Player " + player.playerIndex.ToString();
+        text.text = "Player " + player.playerIndex.ToString()+" - "+ player.MatchID;
     }
 }
