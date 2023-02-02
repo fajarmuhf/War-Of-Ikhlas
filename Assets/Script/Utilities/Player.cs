@@ -132,15 +132,16 @@ public class Player : NetworkBehaviour
         {
             if (MatchID != "")
             {
-                Player.localPlayer.CmdaddUIPlayer();
+                //Player.localPlayer.CmdaddUIPlayer();
 
                 playerLobbyUI = LobbyController.instance.spawnPlayerPrefab(this);
+                Player.localPlayer.CmdUI();
                 Player.localPlayer.otheritung = 1;
             }
         }
     }
     [Command]
-    public void CmdaddUIPlayer()
+    public void CmdUI()
     {
         for (int i = 0; i < MatchMaker.instance.matches.matches.Count; i++)
         {

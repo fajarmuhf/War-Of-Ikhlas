@@ -7,7 +7,7 @@ Library: lib_burst_generated64
 --float-precision=Standard
 --format=MachO
 --disable-warnings=BC1370
---compilation-defines=UNITY_2021_3_16
+--compilation-defines=UNITY_2021_3_17
 --compilation-defines=UNITY_2021_3
 --compilation-defines=UNITY_2021
 --compilation-defines=UNITY_5_3_OR_NEWER
